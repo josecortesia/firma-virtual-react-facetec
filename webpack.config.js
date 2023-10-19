@@ -33,6 +33,11 @@ const config = {
     resolve: {
         extensions: ['.ts', '.js']
     },
+    performance: {
+        hints: process.env.NODE_ENV === 'production' ? "warning" : false,
+        maxAssetSize: 5000000,
+        maxEntrypointSize: 5000000
+    }
 };
 
 module.exports = () => {

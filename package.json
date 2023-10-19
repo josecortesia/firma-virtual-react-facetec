@@ -1,7 +1,7 @@
 {
-  "name": "my-webpack-project",
+  "name": "firma-virtual-facetec",
   "version": "1.0.0",
-  "description": "My webpack project",
+  "description": "Validación Biometrica",
   "main": "src/index.ts",
   "scripts": {
     "facetec-browser-sdk": "live-server --host=localhost --port=8000",
@@ -10,7 +10,7 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch"
   },
-  "author": "FaceTec, Inc.",
+  "author": "Daniel (Rezpo) Rebolledo",
   "dependencies": {
     "live-server": "^1.2.1",
     "url": "^0.11.3"
