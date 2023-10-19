@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>FaceTecAPP Firma Virtual</title>
+</head>
+<style>
+    button {
+        padding: 16px 32px;
+        background-color: #004f9f;
+        border: none;
+        outline: none;
+        width: auto;
+        color: white;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+    .wrapper {
+        width: 100%;
+        height: 100vh;
+        text-align: center;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        justify-content: center;
+        align-items: center;
+    }
+    .body-container {
+        box-sizing: border-box;
+    }
+    .caption {
+        font-family: 'Roboto', sans-serif;
+        font-size: large;
+    }
+    </style>
+<body class="body-container">
+    <div class="wrapper">
+        <img src="/core-sdk/FaceTec_images/firma_virtual_logo.png" alt="verificación biométrica" width="220">
+        <p class="caption">Por favor, realizar verificación biométrica</p>
+        <button id="liveness-button" onclick="FaceTecAppController.onLivenessCheckPressed()">Iniciar verificación</button>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        for (let [key, value] of params.entries()) {
+            const param = {[key]: value};
+            console.log(param);
+        }
+    </script>
+    <script defer type="text/javascript" src="./dist/main.js"></script>
+</body>
+</html>
