@@ -62,10 +62,14 @@ module.exports = function () {
     },
     plugins: [
       new webpack.DefinePlugin({
-        "process.env.PUBLIC_ENCRYPTION_KEY": process.env.PUBLIC_ENCRYPTION_KEY,
-        "process.env.DEVICE_KEY_IDENTIFIER": process.env.DEVICE_KEY_IDENTIFIER,
-        "process.env.BASE_URL": process.env.BASE_URL,
-        "process.env.FV_BASE_URL": process.env.FV_BASE_URL,
+        "process.env.PUBLIC_ENCRYPTION_KEY": JSON.stringify(
+          process.env.PUBLIC_ENCRYPTION_KEY,
+        ),
+        "process.env.DEVICE_KEY_IDENTIFIER": JSON.stringify(
+          process.env.DEVICE_KEY_IDENTIFIER,
+        ),
+        "process.env.BASE_URL": JSON.stringify(process.env.BASE_URL),
+        "process.env.FV_BASE_URL": JSON.stringify(process.env.FV_BASE_URL),
       }),
       {
         apply: compiler => {
