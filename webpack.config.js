@@ -17,7 +17,7 @@ module.exports = function () {
     entry: "./src/App.ts",
     mode: "development",
     devtool: "source-map",
-    watch: true,
+    watch: false,
     stats: "errors-only",
     performance: {
       maxEntrypointSize: 300000,
@@ -79,9 +79,7 @@ module.exports = function () {
       },
     ],
   };
-  console.log(
-    "🚀 Creating FaceTec Biometrics:" + libraryName + " development build ....",
-  );
+  console.log(`🚀 Creating FaceTec Biometrics: ${libraryName} build`);
 
   if (process.argv.indexOf("nowatch") > -1) {
     buildOptions.watch = false;
