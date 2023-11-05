@@ -1,6 +1,6 @@
 # netlify.toml
 [build]
-  publish = "dist"
+  publish = "./dist"
   command = "npm run build:prod"
 
 [build.environment]
