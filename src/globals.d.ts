@@ -1,9 +1,9 @@
-import {App} from "../src"
+import { App } from "../src";
 
 declare global {
-    interface Window {
-      FaceTecAppController: App;
-    }
+  interface Window {
+    FaceTecAppController: App;
+  }
 }
-  
+
 export {};
