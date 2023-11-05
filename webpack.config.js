@@ -6,10 +6,10 @@ var libraryName = "App";
 var compiledCount = 1;
 
 const env = dotenv.config({ path: "./.env" }).parsed;
-const envKeys = Object.keys(env || {}).reduce((prev, next) => {
-  prev[`process.env.${next}`] = JSON.stringify(env[next]);
-  return prev;
-}, {});
+// const envKeys = Object.keys(env || {}).reduce((prev, next) => {
+//   prev[`process.env.${next}`] = JSON.stringify(env[next]);
+//   return prev;
+// }, {});
 
 module.exports = function () {
   var buildOptions = {
@@ -61,7 +61,12 @@ module.exports = function () {
       extensions: [".ts", ".js"],
     },
     plugins: [
-      new webpack.DefinePlugin(envKeys),
+      new webpack.DefinePlugin({
+        "process.env.PUBLIC_ENCRYPTION_KEY": process.env.PUBLIC_ENCRYPTION_KEY,
+        "process.env.DEVICE_KEY_IDENTIFIER": process.env.DEVICE_KEY_IDENTIFIER,
+        "process.env.BASE_URL": process.env.BASE_URL,
+        "process.env.FV_BASE_URL": process.env.FV_BASE_URL,
+      }),
       {
         apply: compiler => {
           compiler.hooks.done.tapAsync("done", function (stats, callback) {
