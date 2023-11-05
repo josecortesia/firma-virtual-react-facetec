@@ -51,6 +51,10 @@ module.exports = function () {
           test: /\.(mp3|png|jp(e*)g|svg)$/,
           loader: "url-loader",
         },
+        {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader", "postcss-loader"],
+        },
       ],
     },
     resolve: {
