@@ -177,11 +177,15 @@ confirmButton &&
           Authorization: `Bearer ${flashToken}`,
         },
         body: JSON.stringify({
-          contractData: parsedContractData,
-          biometrics: {
-            latestIDScanResult: filterBiometrics,
+          file: {
+            contractData: parsedContractData,
+            biometrics: {
+              latestIDScanResult: filterBiometrics,
+            },
+            videoDeclaration: videoStatement,
           },
-          videoDeclaration: videoStatement,
+          contractID: parsedContractData.contractId,
+          signerID: parsedContractData.signerId,
         } as any),
       });
 
