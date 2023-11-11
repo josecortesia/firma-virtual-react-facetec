@@ -191,7 +191,7 @@ confirmButton &&
 
       if (result.ok) {
         loader.style.visibility = "hidden";
-        window.location.href = "../success";
+        window.location.href = "../signature";
       } else {
         console.error(result);
         loader.style.visibility = "hidden";

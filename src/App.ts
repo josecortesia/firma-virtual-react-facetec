@@ -1,5 +1,6 @@
 import "./css/style.css";
 import "./agreement/Agreement.scripts";
+import "./signature/Signature.scripts";
 import { Config } from "../Config";
 import { FaceTecSDK } from "../core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { LivenessCheckProcessor } from "./processors/LivenessCheckProcessor";
