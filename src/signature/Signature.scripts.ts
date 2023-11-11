@@ -32,66 +32,68 @@ const base64ToBlob = (base64, mimeType) => {
   return new Blob([byteArray], { type: mimeType });
 };
 
-downloadContract.addEventListener("click", async () => {
-  loader.style.visibility = "visible";
+downloadContract &&
+  downloadContract.addEventListener("click", async () => {
+    loader.style.visibility = "visible";
 
-  try {
-    const result = await fetch(
-      `${Config.fvBaseURL}/download/${parsedContractData.contractId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${flashToken}`,
+    try {
+      const result = await fetch(
+        `${Config.fvBaseURL}/download/${parsedContractData.contractId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${flashToken}`,
+          },
         },
-      },
-    );
+      );
 
-    const response = await result.json();
+      const response = await result.json();
 
-    const pdfToBlob = base64ToBlob(response.file, "application/pdf");
+      const pdfToBlob = base64ToBlob(response.file, "application/pdf");
 
-    const downloadLink = document.createElement("a");
-    downloadLink.href = URL.createObjectURL(pdfToBlob);
-    downloadLink.download = `contrato_${parsedContractData.contractId}.pdf`;
+      const downloadLink = document.createElement("a");
+      downloadLink.href = URL.createObjectURL(pdfToBlob);
+      downloadLink.download = `contrato_${parsedContractData.contractId}.pdf`;
 
-    // firefox
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+      // firefox
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
 
-    loader.style.visibility = "hidden";
-    confirmButton.disabled = false;
-  } catch (err: any) {
-    loader.style.visibility = "hidden";
-    throw new Error(err);
-  }
-});
-
-confirmButton.addEventListener("click", async () => {
-  loader.style.visibility = "visible";
-  try {
-    const result = await fetch(
-      `${Config.fvBaseURL}/sign/${parsedContractData.contractId}/${parsedContractData.signerId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${flashToken}`,
-        },
-      },
-    );
-
-    const response = await result.json();
-
-    if (result.ok) {
       loader.style.visibility = "hidden";
-      window.location.href = "../success";
-    } else {
-      console.error(response);
+      confirmButton.disabled = false;
+    } catch (err: any) {
       loader.style.visibility = "hidden";
-      if (modalError) modalError.style.visibility = "visible";
+      throw new Error(err);
     }
-  } catch (err: any) {
-    loader.style.visibility = "hidden";
-    throw new Error(err);
-  }
-});
+  });
+
+confirmButton &&
+  confirmButton.addEventListener("click", async () => {
+    loader.style.visibility = "visible";
+    try {
+      const result = await fetch(
+        `${Config.fvBaseURL}/sign/${parsedContractData.contractId}/${parsedContractData.signerId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${flashToken}`,
+          },
+        },
+      );
+
+      const response = await result.json();
+
+      if (result.ok) {
+        loader.style.visibility = "hidden";
+        window.location.href = "../success";
+      } else {
+        console.error(response);
+        loader.style.visibility = "hidden";
+        if (modalError) modalError.style.visibility = "visible";
+      }
+    } catch (err: any) {
+      loader.style.visibility = "hidden";
+      throw new Error(err);
+    }
+  });
