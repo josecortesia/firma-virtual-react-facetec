@@ -12,8 +12,16 @@ const confirmButton: HTMLButtonElement = document.getElementById(
   "fv-sign-contract",
 ) as HTMLButtonElement;
 
+const cancelButton: HTMLButtonElement = document.getElementById(
+  "fv-cancel-sign",
+) as HTMLButtonElement;
+
 const modalError: HTMLElement = document.getElementById(
   "fv-modal-error",
+) as HTMLDivElement;
+
+const modalCancelVerification: HTMLElement = document.getElementById(
+  "fv-modal-cancel-verification",
 ) as HTMLDivElement;
 
 const flashToken = localStorage.getItem("flashUserToken");
@@ -71,6 +79,8 @@ downloadContract &&
 confirmButton &&
   confirmButton.addEventListener("click", async () => {
     loader.style.visibility = "visible";
+    cancelButton.disabled = true;
+
     try {
       const result = await fetch(
         `${Config.fvBaseURL}/sign/${parsedContractData.contractId}/${parsedContractData.signerId}`,
@@ -96,4 +106,23 @@ confirmButton &&
       loader.style.visibility = "hidden";
       throw new Error(err);
     }
+  });
+
+cancelButton &&
+  cancelButton.addEventListener("click", () => {
+    modalCancelVerification.style.visibility = "visible";
+    const okButton = document.getElementById("fv-modal-ok-cancel-button");
+    const noButton = document.getElementById("fv-modal-no-cancel-button");
+
+    noButton?.addEventListener(
+      "click",
+      () => (modalCancelVerification.style.visibility = "hidden"),
+    );
+
+    okButton?.addEventListener("click", () => {
+      localStorage.removeItem("biometrics");
+      localStorage.removeItem("contractData");
+      localStorage.removeItem("flashUserToken");
+      window.location.href = "/";
+    });
   });

@@ -63,6 +63,38 @@
       <div class="bg-white/70 w-full h-full absolute backdrop-blur-md"></div>
     </div>
     <div
+      id="fv-modal-cancel-verification"
+      class="absolute invisible z-50 min-h-screen min-w-full flex items-center justify-center"
+    >
+      <div class="rounded-lg p-4 bg-white shadow-2xl absolute z-10">
+        <h2 class="text-lg font-bold text-center">
+          ¿Desea cancelar la verificación?
+        </h2>
+        <div class="my-4 mb-6 max-w-lg">
+          <p>
+            Considere que al cancelar la firma, se perderá el progreso de
+            verificación y, si desea firmar posteriormente, deberá verificar su
+            identidad de nuevo.
+          </p>
+        </div>
+        <div class="flex items-center justify-center gap-x-2">
+          <button
+            id="fv-modal-ok-cancel-button"
+            class="bg-atmosphere-400 px-6 py-3 rounded-md text-white font-bold hover:bg-atmosphere-500 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
+          >
+            Si
+          </button>
+          <button
+            id="fv-modal-no-cancel-button"
+            class="bg-autumn-200 px-6 py-3 rounded-md text-white font-bold hover:bg-autumn-300 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
+          >
+            No
+          </button>
+        </div>
+      </div>
+      <div class="bg-white/70 w-full h-full absolute backdrop-blur-md"></div>
+    </div>
+    <div
       class="flex items-center justify-center flex-col p-4 snap-y scroll-smooth"
     >
       <div
@@ -116,6 +148,12 @@
             class="bg-atmosphere-400 px-6 py-3 rounded-md text-white font-bold hover:bg-atmosphere-500 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
           >
             Confirmar y firmar
+          </button>
+          <button
+            id="fv-cancel-sign"
+            class="bg-transparent px-6 py-3 rounded-md font-bold hover:bg-almostwhite-200 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
+          >
+            Cancelar
           </button>
         </div>
       </div>
