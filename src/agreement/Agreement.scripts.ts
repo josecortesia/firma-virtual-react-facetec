@@ -31,6 +31,9 @@ const modalError: HTMLElement = document.getElementById(
 const modalErrorButton: HTMLElement = document.getElementById(
   "fv-modal-error-button",
 ) as HTMLButtonElement;
+const videoElement: HTMLVideoElement = document.getElementById(
+  "fv-video-player",
+) as HTMLVideoElement;
 
 let stream;
 let interval;
@@ -56,12 +59,32 @@ modalErrorButton &&
     }
   });
 
+const startVideo = async () => {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+    videoElement.srcObject = stream;
+    videoElement.muted = true;
+    videoElement.play();
+  } catch (error) {
+    console.error("Error accessing media devices:", error);
+  }
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    videoElement && (await startVideo());
+  } catch (error) {
+    console.error("Error accessing media devices:", error);
+  }
+});
+
 startButton &&
   startButton.addEventListener("click", async () => {
     recordedChunks.length = 0;
     if (recordingTimeLeft) {
       recordingTimeLeft.textContent = (recordingTimeout / 1000).toString();
     }
+    startButton.disabled = true;
     stopButton.disabled = false;
 
     interval = setInterval(() => {
@@ -75,9 +98,6 @@ startButton &&
 
     try {
       stream = await navigator.mediaDevices.getUserMedia(constraints);
-      const videoElement: HTMLVideoElement = document.getElementById(
-        "fv-video-player",
-      ) as HTMLVideoElement;
       videoElement.muted = true;
       videoElement.srcObject = stream;
       videoElement.play();
@@ -110,7 +130,6 @@ startButton &&
         videoElement.srcObject = null;
         videoElement.src = url;
         videoElement.muted = false;
-        startButton.disabled = false;
         stopButton.disabled = true;
       };
     } catch (error) {
@@ -124,7 +143,6 @@ stopButton &&
     if (mediaRecorder && mediaRecorder.state !== "inactive") {
       clearInterval(interval);
       mediaRecorder.stop();
-      startButton.disabled = false;
       stopButton.disabled = true;
 
       if (recordedChunks.length > 0) {
@@ -136,18 +154,20 @@ stopButton &&
   });
 
 deleteButton &&
-  deleteButton.addEventListener("click", () => {
+  deleteButton.addEventListener("click", async () => {
     recordedChunks.length = 0;
-    const videoElement: HTMLVideoElement = document.getElementById(
-      "fv-video-player",
-    ) as HTMLVideoElement;
-    videoElement.srcObject = null;
     videoElement.src = "";
     startButton.disabled = false;
     stopButton.disabled = true;
     deleteButton.disabled = true;
     recordingTimeLeft.textContent = (recordingTimeout / 1000).toString();
     stream && stream.getTracks().forEach(track => track.stop());
+
+    try {
+      videoElement && (await startVideo());
+    } catch (error) {
+      console.error("Error accessing media devices:", error);
+    }
   });
 
 confirmButton &&

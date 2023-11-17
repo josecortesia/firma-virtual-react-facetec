@@ -70,6 +70,8 @@ module.exports = function () {
         ),
         "process.env.BASE_URL": JSON.stringify(process.env.BASE_URL),
         "process.env.FV_BASE_URL": JSON.stringify(process.env.FV_BASE_URL),
+        "process.env.EXPIRYDATE": JSON.stringify(process.env.EXPIRYDATE),
+        "process.env.KEY": JSON.stringify(process.env.KEY),
       }),
       {
         apply: compiler => {
