@@ -1,11 +1,8 @@
 import { Config } from "../../Config";
+import "pdfjs-dist";
 
 const loader: HTMLDivElement = document.getElementById(
   "fv-loader-curtain",
-) as HTMLDivElement;
-
-const downloadContract: HTMLDivElement = document.getElementById(
-  "fv-download-contract",
 ) as HTMLDivElement;
 
 const confirmButton: HTMLButtonElement = document.getElementById(
@@ -24,57 +21,75 @@ const modalCancelVerification: HTMLElement = document.getElementById(
   "fv-modal-cancel-verification",
 ) as HTMLDivElement;
 
+const iframePDFContainer = document.getElementById(
+  "fv-pdf-container",
+) as HTMLIFrameElement;
+
+const signatureAgreement = document.getElementById(
+  "fv-signature-agreement",
+) as HTMLInputElement;
+
 const flashToken = localStorage.getItem("flashUserToken");
 const contractData: string = localStorage.getItem("contractData") as string;
 const parsedContractData = JSON.parse(contractData);
 
 if (confirmButton) confirmButton.disabled = true;
 
-const base64ToBlob = (base64, mimeType) => {
-  const byteCharacters = atob(base64);
-  const byteNumbers = new Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i);
+const displayPDF = async () => {
+  loader.style.visibility = "visible";
+
+  try {
+    const result = await fetch(
+      `${Config.fvBaseURL}/download/${parsedContractData.contractId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${flashToken}`,
+        },
+      },
+    );
+
+    const response = await result.json();
+
+    const pdfData = atob(response.file);
+    const pdfArray = new Uint8Array(pdfData.length);
+    for (let i = 0; i < pdfData.length; i++) {
+      pdfArray[i] = pdfData.charCodeAt(i);
+    }
+
+    const pdfBlob = new Blob([pdfArray], { type: "application/pdf" });
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    const iframe = document.getElementById(
+      "fv-pdf-container",
+    ) as HTMLIFrameElement;
+
+    if (iframe) {
+      iframe.src = pdfUrl;
+      iframe.style.position = "fixed";
+      iframe.style.top = "0";
+      iframe.style.right = "0";
+      iframe.style.width = "50%";
+      iframe.style.height = "100%";
+      iframe.style.border = "none";
+    }
+
+    loader.style.visibility = "hidden";
+  } catch (err: any) {
+    loader.style.visibility = "hidden";
+    throw new Error(err);
   }
-  const byteArray = new Uint8Array(byteNumbers);
-  return new Blob([byteArray], { type: mimeType });
 };
 
-downloadContract &&
-  downloadContract.addEventListener("click", async () => {
-    loader.style.visibility = "visible";
-
-    try {
-      const result = await fetch(
-        `${Config.fvBaseURL}/download/${parsedContractData.contractId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${flashToken}`,
-          },
-        },
-      );
-
-      const response = await result.json();
-
-      const pdfToBlob = base64ToBlob(response.file, "application/pdf");
-
-      const downloadLink = document.createElement("a");
-      downloadLink.href = URL.createObjectURL(pdfToBlob);
-      downloadLink.download = `contrato_${parsedContractData.contractId}.pdf`;
-
-      // firefox
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-
-      loader.style.visibility = "hidden";
+if (iframePDFContainer && signatureAgreement) {
+  signatureAgreement.addEventListener("change", () => {
+    if (signatureAgreement.checked) {
       confirmButton.disabled = false;
-    } catch (err: any) {
-      loader.style.visibility = "hidden";
-      throw new Error(err);
+    } else {
+      confirmButton.disabled = true;
     }
   });
+  displayPDF();
+}
 
 confirmButton &&
   confirmButton.addEventListener("click", async () => {
@@ -92,13 +107,12 @@ confirmButton &&
         },
       );
 
-      const response = await result.json();
-
       if (result.ok) {
+        cancelButton.disabled = false;
         loader.style.visibility = "hidden";
         window.location.href = "../success";
       } else {
-        console.error(response);
+        cancelButton.disabled = false;
         loader.style.visibility = "hidden";
         if (modalError) modalError.style.visibility = "visible";
       }

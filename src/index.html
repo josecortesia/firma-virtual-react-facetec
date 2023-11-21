@@ -30,6 +30,31 @@
     class="relative flex min-h-screen flex-col justify-center items-center overflow-hidden py-6 sm:py-12 bg-gradient-to-br from-almostwhite-200 to-almostwhite-50"
   >
     <div
+      id="fv-modal-error"
+      class="absolute invisible z-50 min-h-screen min-w-full flex items-center justify-center"
+    >
+      <div class="rounded-lg p-4 bg-white shadow-2xl absolute z-10">
+        <h2 class="text-lg font-bold text-center">
+          Este contrato ya ha sido firmado
+        </h2>
+        <div class="my-4 mb-6 max-w-lg">
+          <p>
+            Usted ya ha firmado este contrato, por lo cual no es necesario
+            continuar con este proceso. Si está seguro de que no ha realizado
+            dicha firma, por favor comuníquese con la persona que creó este
+            contrato.
+          </p>
+        </div>
+        <button
+          id="fv-modal-error-button"
+          class="bg-atmosphere-400 px-6 py-3 rounded-md text-white font-bold hover:bg-atmosphere-500 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
+        >
+          Entendido
+        </button>
+      </div>
+      <div class="bg-white/70 w-full h-full absolute backdrop-blur-md"></div>
+    </div>
+    <div
       class="wrapping-box-container sm:w-full md:w-2/3 bg-white p-4 rounded-lg prose lg=prose-xl flex flex-col justify-center border border-almostwhite-200 shadow-xl"
     >
       <div id="main-interface">
@@ -139,12 +164,21 @@
               <p class="my-0 text-left">
                 Tenga a su disposición su
                 <span class="text-base font-bold text-gray-900"
-                  >cédula de identidad,</span
+                  >Identificación oficial,</span
                 >
                 ya que será requerida para completar el proceso de verificación.
               </p>
             </li>
           </ul>
+          <label class="font-bold">
+            <input
+              type="checkbox"
+              id="fv-terms-and-conditions"
+              value="terms_and_conditions_agreement"
+            />
+            Entiendo y acepto los términos y condiciones sobre privacidad de
+            información y manejo de datos expresados en este documento.
+          </label>
           <button
             id="id-scan-button"
             type="button"

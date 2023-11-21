@@ -22,6 +22,7 @@ import {
 } from "./sampleAppControllerReference/SampleAppControllerReference";
 import { DeveloperStatusMessages } from "./utilities/DeveloperStatusMessages";
 import { CreateFlashUser } from "./utilities/CreateFlashUser";
+// import { VerifySignature } from "./utilities/VerifySignature";
 
 export const App = ((): any => {
   let flashUserResult = "";
@@ -36,8 +37,19 @@ export const App = ((): any => {
   let latestIDScanResult: FaceTecIDScanResult | null = null;
 
   window.onload = async (): Promise<void> => {
+    const checkboxTermsConditions = document.getElementById(
+      "fv-terms-and-conditions",
+    ) as HTMLInputElement;
+
     const flashUser = await CreateFlashUser();
     flashUserResult = flashUser.data.customer_id;
+
+    // if (flashUser.data) {
+    //   // TODO: verify if contract was signed
+    //   const signature = await VerifySignature();
+    //   console.log(signature);
+    // }
+
     SampleAppUtilities.formatUIForDevice();
     FaceTecSDK.setResourceDirectory("../../core-sdk/FaceTecSDK.js/resources");
     FaceTecSDK.setImagesDirectory("../../core-sdk/FaceTec_images");
@@ -47,15 +59,21 @@ export const App = ((): any => {
       FaceTecSDK,
       function (initializedSuccessfully: boolean) {
         if (initializedSuccessfully) {
-          SampleAppUtilities.enableControlButtons();
-          SampleAppUtilities.setVocalGuidanceSoundFiles();
-          SampleAppUtilities.setVocalGuidanceMode();
-          SampleAppUtilities.setOCRLocalization();
+          checkboxTermsConditions?.addEventListener("change", () => {
+            if (checkboxTermsConditions.checked) {
+              SampleAppUtilities.enableControlButtons();
+              SampleAppUtilities.setVocalGuidanceSoundFiles();
+              SampleAppUtilities.setVocalGuidanceMode();
+              SampleAppUtilities.setOCRLocalization();
 
-          AdditionalScreens.setServerUpgradeStyling(
-            document.getElementById("controls")!,
-            exitAdditionalScreen,
-          );
+              AdditionalScreens.setServerUpgradeStyling(
+                document.getElementById("controls")!,
+                exitAdditionalScreen,
+              );
+            } else {
+              SampleAppUtilities.disableControlButtons();
+            }
+          });
         }
 
         DeveloperStatusMessages.logInitializeResult();
