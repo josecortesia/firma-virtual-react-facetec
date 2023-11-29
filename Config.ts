@@ -5,10 +5,10 @@ export var Config = (function () {
   // NOTE: This field is auto-populated by the FaceTec SDK Configuration Wizard.
   var ProductionKey = {
     domains: "",
-    expiryDate: process.env.EXPIRYDATE ?? "",
-    key: process.env.KEY ?? "",
+    expiryDate: "2024-02-10",
+    key: "003046022100e41ec5cc379669f504823f98e73c6850417ad32085ac3a20f7dcef735dbd1c5802210089392228b59b1e7005121c92c131f72fae6602eddddd9ac08feea592c8c6f88b",
   };
-  var DeviceKeyIdentifier = process.env.DEVICE_KEY_IDENTIFIER ?? "";
+  var DeviceKeyIdentifier = "dnTDuwQzkgM5F1IeW6AMFOLOwPWf18p7";
 
   // -------------------------------------
   // REQUIRED
@@ -16,8 +16,8 @@ export var Config = (function () {
   // In Production, you likely will handle network requests elsewhere and without the use of this variable.
   // See https://dev.facetec.com/security-best-practices?link=facetec-server-rest-endpoint-security for more information.
   // NOTE: This field is auto-populated by the FaceTec SDK Configuration Wizard.
-  var BaseURL = process.env.BASE_URL;
-  var fvBaseURL = process.env.FV_BASE_URL;
+  var BaseURL = "https://smb-zcs-dev.koalavsp.com";
+  var fvBaseURL = "https://apimex.firmavirtual.com/api";
 
   // -------------------------------------
   // REQUIRED
@@ -26,7 +26,9 @@ export var Config = (function () {
   // NOTE: This field is auto-populated by the FaceTec SDK Configuration Wizard.
 
   var PublicFaceScanEncryptionKey =
-    process.env.PUBLIC_ENCRYPTION_KEY?.split("?*/").join("\n") ?? "";
+    "-----BEGIN PUBLIC KEY-----?*/MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3irIdgBSVvXMWiVzWzSC?*/5zMDye1VHfInpnQaQxChfydzGW3VVnUhTVCYFnGbJqmGBmHYBN+6ssbHXE5gKg5R?*/lJSiRmqY+pb5EohJnWWsFOeZuMFK0QjiAQjVGQjktzcknm/KPCh95j6r7sSrwdp9?*/KRDf1euT32USmhUwF55TJkw2yH1RYf+5uid9p1AShYQDHuDvwKXD04L5FslI26fn?*/GxifxwR0pA0CGsjcdv/8u/rgpDZuFDgK1G7rn4gdVQTqnX4wzqk3FWL7MWqJh8aL?*/6hdZCKYcL0PanLhY2mVfRerVx1bnPGardn9nQ+G2YliM/B/A8X4kM871G34mbnF7?*/awIDAQAB?*/-----END PUBLIC KEY-----"
+      .split("?*/")
+      .join("\n") ?? "";
   // -------------------------------------
   // Convenience method to initialize the FaceTec SDK.
   // NOTE: This function is auto-populated by the FaceTec SDK Configuration Wizard based on your UI Customizations you picked in the Configuration Wizard GUI.
