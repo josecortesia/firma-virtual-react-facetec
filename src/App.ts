@@ -59,6 +59,7 @@ export const App = ((): any => {
       FaceTecSDK,
       function (initializedSuccessfully: boolean) {
         if (initializedSuccessfully) {
+          checkboxTermsConditions.disabled = false;
           checkboxTermsConditions?.addEventListener("change", () => {
             if (checkboxTermsConditions.checked) {
               SampleAppUtilities.enableControlButtons();
