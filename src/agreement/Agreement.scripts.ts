@@ -188,34 +188,94 @@ confirmButton &&
     const parsedContractData = JSON.parse(contractData);
 
     loader.style.visibility = "visible";
+    const BASE_URL = process.env.CLOUD_CONVERT_BASE_URL ?? "";
 
     try {
-      const result = await fetch(`${Config.fvBaseURL}/uploadFiles`, {
+      const result = await fetch(BASE_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${flashToken}`,
+          Authorization: `Bearer ${process.env.CLOUD_CONVERT_API_KEY}`,
         },
         body: JSON.stringify({
-          file: {
-            contractData: parsedContractData,
-            biometrics: {
-              latestIDScanResult: filterBiometrics,
+          tasks: {
+            agreement_import: {
+              operation: "import/base64",
+              file: videoStatement,
+              filename: "agreement.mp4",
             },
-            videoDeclaration: videoStatement,
+            agreement_convert: {
+              operation: "convert",
+              input_format: "webm",
+              output_format: "mp4",
+              engine: "ffmpeg",
+              input: ["agreement_import"],
+              video_codec: "x264",
+              crf: 23,
+              preset: "medium",
+              fit: "scale",
+              subtitles_mode: "none",
+              audio_codec: "aac",
+              audio_bitrate: 128,
+            },
+            agreement_export: {
+              operation: "export/url",
+              input: ["agreement_convert"],
+              inline: false,
+              archive_multiple_files: false,
+            },
           },
-          contractID: parsedContractData.contractId,
-          signerID: parsedContractData.signerId,
-        } as any),
+          tag: "jobbuilder",
+        }),
       });
-
       if (result.ok) {
-        loader.style.visibility = "hidden";
-        window.location.href = "../signature";
-      } else {
-        console.error(result);
-        loader.style.visibility = "hidden";
-        if (modalError) modalError.style.visibility = "visible";
+        const response = await result.json();
+        if (response.data.status === "finished") {
+          const fileUrl = response.data.tasks.find(
+            t => t.name === "agreement_export",
+          );
+          const mp4 = await fetch(fileUrl.result.files[0].url);
+
+          if (mp4.ok) {
+            const blob = await mp4.blob();
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = async () => {
+              const base64 = reader.result as string;
+              const base64String = base64
+                ? base64.split("data:video/mp4;base64,")[1]
+                : "";
+
+              const result = await fetch(`${Config.fvBaseURL}/uploadFiles`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${flashToken}`,
+                },
+                body: JSON.stringify({
+                  file: {
+                    contractData: parsedContractData,
+                    biometrics: {
+                      latestIDScanResult: filterBiometrics,
+                    },
+                    videoDeclaration: base64String,
+                  },
+                  contractID: parsedContractData.contractId,
+                  signerID: parsedContractData.signerId,
+                } as any),
+              });
+
+              if (result.ok) {
+                loader.style.visibility = "hidden";
+                window.location.href = "../signature";
+              } else {
+                console.error(result);
+                loader.style.visibility = "hidden";
+                if (modalError) modalError.style.visibility = "visible";
+              }
+            };
+          }
+        }
       }
     } catch (err: any) {
       loader.style.visibility = "hidden";
