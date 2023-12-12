@@ -237,7 +237,7 @@ export class PhotoIDMatchProcessor
     // minMatchLevel allows Developers to specify a Match Level that they would like to target in order for success to be true in the response.
     // minMatchLevel cannot be set to 0.
     // minMatchLevel setting does not affect underlying Algorithm behavior.
-    const MinMatchLevel = 3;
+    const MinMatchLevel = 5;
 
     //
     // Part 12:  Get essential data off the FaceTecIDScanResult
