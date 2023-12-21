@@ -237,7 +237,7 @@ export class PhotoIDMatchProcessor
     // minMatchLevel allows Developers to specify a Match Level that they would like to target in order for success to be true in the response.
     // minMatchLevel cannot be set to 0.
     // minMatchLevel setting does not affect underlying Algorithm behavior.
-    const MinMatchLevel = 5;
+    const MinMatchLevel = 3;
 
     //
     // Part 12:  Get essential data off the FaceTecIDScanResult
@@ -302,6 +302,14 @@ export class PhotoIDMatchProcessor
 
           // In v9.2.0+, we key off a new property called wasProcessed to determine if we successfully processed the Session result on the Server.
           // Device SDK UI flow is now driven by the proceedToNextStep function, which should receive the scanResultBlob from the Server SDK response.
+          const modalMatchError = document.getElementById(
+            "fv-modal-match-level-error",
+          );
+
+          if (responseJSON.matchLevel < 3) {
+            if (modalMatchError) modalMatchError.style.visibility = "visible";
+          }
+
           if (responseJSON.wasProcessed === true) {
             // In v9.2.0+, configure the messages that will be displayed to the User in each of the possible cases.
             // Based on the internal processing and decision logic about how the flow gets advanced, the FaceTec SDK will use the appropriate, configured message.

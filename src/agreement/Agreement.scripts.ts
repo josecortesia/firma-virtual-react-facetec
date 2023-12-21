@@ -178,12 +178,15 @@ confirmButton &&
     const flashToken = localStorage.getItem("flashUserToken");
     const contractData: string = localStorage.getItem("contractData") as string;
     const biometrics: string = localStorage.getItem("biometrics") as string;
+
     const filterBiometrics = {
       status: JSON.parse(biometrics).latestIDScanResult.status,
       sessionId: JSON.parse(biometrics).latestIDScanResult.sessionId,
       isCompletelyDone:
         JSON.parse(biometrics).latestIDScanResult.isCompletelyDone,
       idScan: JSON.parse(biometrics).latestIDScanResult.idScan,
+      backImages: JSON.parse(biometrics).latestIDScanResult.backImages[0],
+      frontImages: JSON.parse(biometrics).latestIDScanResult.frontImages[0],
     };
     const parsedContractData = JSON.parse(contractData);
 
