@@ -250,32 +250,46 @@ confirmButton &&
                 : "";
 
               try {
-                const result = await fetch(`${Config.fvBaseURL}/uploadFiles`, {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${flashToken}`,
-                  },
-                  body: JSON.stringify({
-                    file: {
-                      contractData: parsedContractData,
-                      biometrics: {
-                        latestIDScanResult: filterBiometrics,
-                      },
-                      videoDeclaration: base64String,
-                    },
-                    contractID: parsedContractData.contractId,
-                    signerID: parsedContractData.signerId,
-                  } as any),
-                });
+                const ip = await fetch(Config.ipBaseURL ?? "");
 
-                if (result.ok) {
-                  loader.style.visibility = "hidden";
-                  window.location.href = "../signature";
-                } else {
-                  console.error(result);
-                  loader.style.visibility = "hidden";
-                  if (modalError) modalError.style.visibility = "visible";
+                if (ip.ok) {
+                  const data = await ip.json();
+
+                  try {
+                    const result = await fetch(
+                      `${Config.fvBaseURL}/uploadFiles`,
+                      {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${flashToken}`,
+                        },
+                        body: JSON.stringify({
+                          file: {
+                            contractData: parsedContractData,
+                            biometrics: {
+                              latestIDScanResult: filterBiometrics,
+                            },
+                            videoDeclaration: base64String,
+                          },
+                          contractID: parsedContractData.contractId,
+                          signerID: parsedContractData.signerId,
+                          ipAddress: data.ip,
+                        } as any),
+                      },
+                    );
+
+                    if (result.ok) {
+                      loader.style.visibility = "hidden";
+                      window.location.href = "../signature";
+                    } else {
+                      console.error(result);
+                      loader.style.visibility = "hidden";
+                      if (modalError) modalError.style.visibility = "visible";
+                    }
+                  } catch (e) {
+                    console.error(e);
+                  }
                 }
               } catch (e) {
                 console.error(e);

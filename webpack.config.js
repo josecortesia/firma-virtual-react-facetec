@@ -78,6 +78,7 @@ module.exports = function () {
         "process.env.CLOUD_CONVERT_API_KEY": JSON.stringify(
           process.env.CLOUD_CONVERT_API_KEY,
         ),
+        "process.env.IP_BASE_URL": JSON.stringify(process.env.IP_BASE_URL),
       }),
       {
         apply: compiler => {
