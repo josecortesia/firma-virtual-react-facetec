@@ -32,6 +32,31 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
   touch-action: manipulation;
+
+  div.icons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  div.icons div:nth-child(1),
+  div.icons div:nth-child(2) {
+    margin-right: 15px;
+  }
+  
+  div.icons div.icon-contact {
+    cursor: pointer;
+    background-color:#0e4f9f;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 19px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
 }
 
 button {
