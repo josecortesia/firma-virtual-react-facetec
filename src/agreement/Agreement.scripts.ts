@@ -279,6 +279,8 @@ confirmButton &&
                       },
                     );
 
+                    console.log('result: ', result);
+
                     if (result.ok) {
                       loader.style.visibility = "hidden";
                       window.location.href = "../signature";
