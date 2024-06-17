@@ -290,6 +290,10 @@ footer span p a:hover {
   margin-bottom: 7px;
 }
 
+/* #copy-right {
+  display: none;
+} */
+
 #copy-right-length {
   position: absolute;
   visibility: hidden;
