@@ -320,7 +320,7 @@ export var SampleAppUtilities = (function (): any {
         document.querySelector("#custom-logo-container img") as HTMLElement
       ).style.height = "40px";
       // Center control interface on screen
-      (
+      /* (
         document.getElementsByClassName(
           "wrapping-box-container",
         )[0] as HTMLElement
@@ -334,14 +334,14 @@ export var SampleAppUtilities = (function (): any {
         document.getElementsByClassName(
           "wrapping-box-container",
         )[0] as HTMLElement
-      ).style.transform = "translate(-50%, -50%)";
+      ).style.transform = "translate(-50%, -50%)"; */
       // Adjust button margins
-      (
+      /* (
         document.getElementById("liveness-button") as HTMLElement
-      ).style.marginTop = "unset";
-      (
+      ).style.marginTop = "unset"; */
+      /* (
         document.getElementById("design-showcase-button") as HTMLElement
-      ).style.marginBottom = "unset";
+      ).style.marginBottom = "unset"; */
       // Setup footer sizing
       var footerFontSize = "100%";
 
@@ -363,15 +363,15 @@ export var SampleAppUtilities = (function (): any {
       });
       SampleAppUIFunctions("footer span p").css({ "font-size": "inherit" });
       SampleAppUIFunctions("footer span, footer span p").css({ margin: 0 });
-      (document.querySelector("hr") as HTMLElement).classList.remove(
+      /* (document.querySelector("hr") as HTMLElement).classList.remove(
         "display-none",
-      );
-      var computedFooterFontSize = window.getComputedStyle(
+      ); */
+      /* var computedFooterFontSize = window.getComputedStyle(
         document.querySelector("footer span p") as HTMLElement,
       ).fontSize;
       SampleAppUIFunctions("#copy-right-length").css({
         "font-size": computedFooterFontSize,
-      });
+      }); */
       var copyRightStringLength = (
         document.getElementById("copy-right-length") as HTMLElement
       ).clientWidth;
@@ -474,10 +474,10 @@ export var SampleAppUtilities = (function (): any {
     (
       document.getElementById("photo-id-scan-button") as HTMLElement
     ).setAttribute("disabled", "true");
-    (document.getElementById("liveness-button") as HTMLElement).setAttribute(
+    /* (document.getElementById("liveness-button") as HTMLElement).setAttribute(
       "disabled",
       "true",
-    );
+    ); */
     (
       document.getElementById("authenticate-button") as HTMLElement
     ).setAttribute("disabled", "true");
@@ -485,9 +485,9 @@ export var SampleAppUtilities = (function (): any {
       "disabled",
       "true",
     );
-    (
+    /* (
       document.getElementById("design-showcase-button") as HTMLElement
-    ).setAttribute("disabled", "true");
+    ).setAttribute("disabled", "true"); */
   }
 
   function enableAllButtons(): void {
@@ -500,18 +500,18 @@ export var SampleAppUtilities = (function (): any {
     (
       document.getElementById("photo-id-scan-button") as HTMLElement
     ).removeAttribute("disabled");
-    (document.getElementById("liveness-button") as HTMLElement).removeAttribute(
+    /* (document.getElementById("liveness-button") as HTMLElement).removeAttribute(
       "disabled",
-    );
+    ); */
     (
       document.getElementById("authenticate-button") as HTMLElement
     ).removeAttribute("disabled");
     (
       document.getElementById("audit-trail-button") as HTMLElement
     ).removeAttribute("disabled");
-    (
+    /* (
       document.getElementById("design-showcase-button") as HTMLElement
-    ).removeAttribute("disabled");
+    ).removeAttribute("disabled"); */
   }
 
   function fadeInBlurOverlay(): void {
