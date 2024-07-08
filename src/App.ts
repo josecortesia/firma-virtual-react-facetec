@@ -35,6 +35,7 @@ export const App = ((): any => {
     | PhotoIDScanProcessor;
   let latestSessionResult: FaceTecSessionResult | null = null;
   let latestIDScanResult: FaceTecIDScanResult | null = null;
+  let localizedLanguage = require('../core-sdk-optional/FaceTecStrings.es.js');
 
   window.onload = async (): Promise<void> => {
     const checkboxTermsConditions = document.getElementById(
@@ -66,6 +67,7 @@ export const App = ((): any => {
               SampleAppUtilities.setVocalGuidanceSoundFiles();
               SampleAppUtilities.setVocalGuidanceMode();
               SampleAppUtilities.setOCRLocalization();
+              FaceTecSDK.configureLocalization(localizedLanguage)
 
               AdditionalScreens.setServerUpgradeStyling(
                 document.getElementById("controls")!,

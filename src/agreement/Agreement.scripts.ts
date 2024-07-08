@@ -108,7 +108,6 @@ startButton &&
           recordedChunks.push(event.data);
         }
       };
-
       mediaRecorder.start(100);
 
       setTimeout(() => {
@@ -192,7 +191,6 @@ confirmButton &&
 
     loader.style.visibility = "visible";
     const BASE_URL = process.env.CLOUD_CONVERT_BASE_URL ?? "";
-
     try {
       const result = await fetch(BASE_URL, {
         method: "POST",
@@ -251,7 +249,6 @@ confirmButton &&
 
               try {
                 const ip = await fetch(Config.ipBaseURL ?? "");
-
                 if (ip.ok) {
                   const data = await ip.json();
 

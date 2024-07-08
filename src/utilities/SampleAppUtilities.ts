@@ -259,7 +259,7 @@ export var SampleAppUtilities = (function (): any {
           (element as HTMLElement).style.fontSize = "14px";
         }
 
-        (element as HTMLElement).style.width = "60%";
+        // (element as HTMLElement).style.width = "60%";
       });
       // Adjust main interface display
       (document.getElementById("main-interface") as HTMLElement).style.display =
@@ -303,7 +303,7 @@ export var SampleAppUtilities = (function (): any {
       ) {
         (<HTMLElement>icon).style.height = "30px";
         (<HTMLElement>icon).style.margin = "20px";
-        (<HTMLElement>icon).style.transform = "translateX(calc(-100% - 40px))";
+        (<HTMLElement>icon).style.transform = "translate(180px, 50px)";
       });
       // Move logo above buttons
       (document.getElementById(
