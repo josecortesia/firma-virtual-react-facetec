@@ -65,10 +65,10 @@ const displayPDF = async () => {
 
     if (iframe) {
       iframe.src = pdfUrl;
-      iframe.style.position = "fixed";
+      // iframe.style.position = "fixed";
       iframe.style.top = "0";
       iframe.style.right = "0";
-      iframe.style.width = "50%";
+      iframe.style.width = "100%";
       iframe.style.height = "100%";
       iframe.style.border = "none";
     }

@@ -1,221 +1,150 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Verificación biométrica - Firma Virtual</title>
-    <meta charset="utf-8" />
-    <link rel="icon" href="../favicon-icon.svg" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-    />
-    <style>
-      @import url("https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i");
-    </style>
-    <!-- <link rel="stylesheet" href="./css/style.css?v1"> -->
-    <link href="../dist/output.css" rel="stylesheet" />
-    <!-- Add iOS meta tags and icons -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta
-      name="apple-mobile-web-app-title"
-      content="Verificación de Identidad Biométrica - Firma Virtual"
-    />
-    <script
-      type="text/javascript"
-      src="../sample-app-resources/js/very-old-browser-check.js"
-    ></script>
-    <script type="text/javascript" src="../dist/App.js"></script>
-  </head>
-  <body
-    class="relative flex min-h-screen flex-col justify-center items-center py-6 sm:py-12 bg-gradient-to-br from-almostwhite-200 to-almostwhite-50"
-  >
-    <div
-      id="fv-modal-match-level-error"
-      class="absolute invisible z-50 min-h-screen min-w-full flex items-center justify-center"
-    >
-      <div class="rounded-lg p-4 bg-white shadow-2xl absolute z-10">
-        <h2 class="text-lg font-bold text-center">
-          Validación biométrica no exitosa
-        </h2>
-        <div class="my-4 mb-6 max-w-lg">
-          <p>
-            Lamentamos informarle que la validación biométrica no se ha
-            completado con éxito. El rostro proporcionado no coincide con el
-            registrado en su cédula de identidad. Por favor, solicite un nuevo
-            correo de validación a nuestros administradores para continuar con
-            el proceso de verificación.
-          </p>
-        </div>
-        <button
-          id="fv-modal-error-button"
-          class="bg-atmosphere-400 px-6 py-3 rounded-md text-white font-bold hover:bg-atmosphere-500 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
-        >
-          Entendido
-        </button>
+
+<head>
+  <title>Verificación biométrica - Firma Virtual</title>
+  <meta charset="utf-8" />
+  <link rel="icon" href="../favicon-icon.svg" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i");
+  </style>
+  <!-- <link rel="stylesheet" href="./css/style.css?v1"> -->
+  <link href="../dist/output.css" rel="stylesheet" />
+  <!-- Add iOS meta tags and icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="Verificación de Identidad Biométrica - Firma Virtual" />
+  <script type="text/javascript" src="../sample-app-resources/js/very-old-browser-check.js"></script>
+  <script type="text/javascript" src="../dist/App.js"></script>
+</head>
+
+<body
+  class="relative flex min-h-screen flex-col justify-center items-center py-4 sm:py-12 bg-gradient-to-br from-almostwhite-200 to-almostwhite-50">
+  <div id="fv-modal-match-level-error"
+    class="absolute invisible z-50 min-h-screen min-w-full flex items-center justify-center">
+    <div class="rounded-lg p-4 bg-white shadow-2xl absolute z-10">
+      <h2 class="text-lg font-bold text-center">
+        Validación biométrica no exitosa
+      </h2>
+      <div class="my-4 mb-6 max-w-lg">
+        <p>
+          Lamentamos informarle que la validación biométrica no se ha
+          completado con éxito. El rostro proporcionado no coincide con el
+          registrado en su cédula de identidad. Por favor, solicite un nuevo
+          correo de validación a nuestros administradores para continuar con
+          el proceso de verificación.
+        </p>
       </div>
-      <div class="bg-white/70 w-full h-full absolute backdrop-blur-md"></div>
+      <button id="fv-modal-error-button"
+        class="bg-atmosphere-400 px-6 py-3 rounded-md text-white font-bold hover:bg-atmosphere-500 disabled:bg-almostwhite-300 disabled:text-almostwhite-600">
+        Entendido
+      </button>
     </div>
-    <div
-      id="fv-modal-error"
-      class="absolute invisible z-50 min-h-screen min-w-full flex items-center justify-center"
-    >
-      <div class="rounded-lg p-4 bg-white shadow-2xl absolute z-10">
-        <h2 class="text-lg font-bold text-center">
-          Este contrato ya ha sido firmado
-        </h2>
-        <div class="my-4 mb-6 max-w-lg">
-          <p>
-            Usted ya ha firmado este contrato, por lo cual no es necesario
-            continuar con este proceso. Si está seguro de que no ha realizado
-            dicha firma, por favor comuníquese con la persona que creó este
-            contrato.
-          </p>
-        </div>
-        <button
-          id="fv-modal-error-button"
-          class="bg-atmosphere-400 px-6 py-3 rounded-md text-white font-bold hover:bg-atmosphere-500 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
-        >
-          Entendido
-        </button>
+    <div class="bg-white/70 w-full h-full absolute backdrop-blur-md"></div>
+  </div>
+  <div id="fv-modal-error" class="absolute invisible z-50 min-h-screen min-w-full flex items-center justify-center">
+    <div class="rounded-lg p-4 bg-white shadow-2xl absolute z-10">
+      <h2 class="text-lg font-bold text-center">
+        Este contrato ya ha sido firmado
+      </h2>
+      <div class="my-4 mb-6 max-w-lg">
+        <p>
+          Usted ya ha firmado este contrato, por lo cual no es necesario
+          continuar con este proceso. Si está seguro de que no ha realizado
+          dicha firma, por favor comuníquese con la persona que creó este
+          contrato.
+        </p>
       </div>
-      <div class="bg-white/70 w-full h-full absolute backdrop-blur-md"></div>
+      <button id="fv-modal-error-button"
+        class="bg-atmosphere-400 px-6 py-3 rounded-md text-white font-bold hover:bg-atmosphere-500 disabled:bg-almostwhite-300 disabled:text-almostwhite-600">
+        Entendido
+      </button>
     </div>
-    <div
-      class="sm:w-full md:w-2/3 bg-white p-4 rounded-lg overflow-y-auto flex flex-col justify-center border border-almostwhite-200 shadow-xl"
-    >
-      <div id="main-interface">
-        <div
-          id="controls"
-          class="flex flex-col text-almostwhite-600 text-gray-600 p-4"
-        >
-          <div
-            id="vocal-icon-container"
-            class="cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 relative h-8"
-          >
-            <div class="absolute">
-              <img
-                id="vocal-guidance-icon-minimal"
-                disabled
-                class="vocal-icon my-0"
-                src="./assets/icons/record_voice_over.svg"
-                onclick="App.onVocalGuidanceSettingsButtonPressed()"
-              />
-            </div>
-            <div class="absolute">
-              <img
-                id="vocal-guidance-icon-full"
-                disabled
-                class="vocal-icon vocal-guidance-icon-full display-none my-0"
-                src="./assets/icons/record_voice_over.svg"
-                onclick="App.onVocalGuidanceSettingsButtonPressed()"
-              />
-            </div>
-            <div class="absolute">
-              <img
-                id="vocal-guidance-icon-off"
-                disabled
-                class="vocal-icon vocal-guidance-icon-off display-none my-0"
-                src="./assets/icons/voice_over_off.svg"
-                onclick="App.onVocalGuidanceSettingsButtonPressed()"
-              />
-            </div>
+    <div class="bg-white/70 w-full h-full absolute backdrop-blur-md"></div>
+  </div>
+  <div class="sm:w-full md:w-2/3 bg-white p-4 rounded-lg overflow-y-auto border border-almostwhite-200 shadow-xl">
+    <div id="main-interface">
+      <div id="controls" class="flex flex-col text-almostwhite-600 text-gray-600 p-4">
+        <div id="vocal-icon-container"
+          class="cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 relative h-8">
+          <div class="absolute">
+            <img id="vocal-guidance-icon-minimal" disabled class="vocal-icon my-0"
+              src="./assets/icons/record_voice_over.svg" onclick="App.onVocalGuidanceSettingsButtonPressed()" />
           </div>
-          <div
-            id="custom-logo-container"
-            class="flex items-center justify-center"
-          >
-            <img src="./assets/img/fv-logo.svg" class="h-8" />
+          <div class="absolute">
+            <img id="vocal-guidance-icon-full" disabled class="vocal-icon vocal-guidance-icon-full display-none my-0"
+              src="./assets/icons/record_voice_over.svg" onclick="App.onVocalGuidanceSettingsButtonPressed()" />
           </div>
-          <p class="text-left mb-4">
-            Bienvenido a la verificación biométrica. Considere las
-            recomendaciones previas para asegurar un proceso eficiente y sin
-            inconvenientes. Por favor, dedique tiempo para cumplir con las
-            condiciones óptimas.
-          </p>
-          <ul class="p-0 my-6 flex flex-col gap-4">
-            <li class="flex content-center items-center gap-4 flex-row my-0">
-              <svg
-                class="h-6 w-6 flex-none fill-almostwhite-50 stroke-atmosphere-300 stroke-2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="11" />
-                <path
-                  d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
-                  fill="none"
-                />
-              </svg>
-              <p class="my-0 text-left">
-                Posiciónate en un entorno tranquilo y libre de distracciones;
-                <span class="text-base font-bold"
-                  >una habitación, oficina o su vehículo</span
-                >
-                son lugares idóneos para este propósito.
-              </p>
-            </li>
-            <li class="flex content-center items-center gap-4 flex-row my-0">
-              <svg
-                class="h-6 w-6 flex-none fill-almostwhite-50 stroke-atmosphere-300 stroke-2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="11" />
-                <path
-                  d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
-                  fill="none"
-                />
-              </svg>
-              <p class="my-0 text-left">
-                Asegúrate de contar con una iluminación adecuada, ya sea natural
-                o artificial; es indispensable que su rostro esté bien iluminado
-                y sin obstrucciones. Por ejemplo,
-                <span class="text-base font-bold text-gray-900"
-                  >evite el uso de gorras, audífonos o cascos</span
-                >
-                durante este proceso.
-              </p>
-            </li>
-            <li class="flex content-center items-center gap-4 flex-row my-0">
-              <svg
-                class="h-6 w-6 flex-none fill-almostwhite-50 stroke-atmosphere-300 stroke-2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="11" />
-                <path
-                  d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
-                  fill="none"
-                />
-              </svg>
-              <p class="my-0 text-left">
-                Ten a tu disposición tu
-                <span class="text-base font-bold text-gray-900"
-                  >Identificación oficial,</span
-                >
-                ya que será requerida para completar el proceso de verificación.
-              </p>
-            </li>
-          </ul>
-          <label class="font-bold">
-            <input
-              type="checkbox"
-              id="fv-terms-and-conditions"
-              value="terms_and_conditions_agreement"
-              disabled="true"
-            />
-            Entiendo y acepto los términos y condiciones sobre privacidad de
-            información y manejo de datos expresados en este documento.
-          </label>
-          <button
-            id="id-scan-button"
-            type="button"
-            disabled
-            onclick="App.onPhotoIDMatchPressed()"
-            class="cursor-pointer flex-1 px-6 py-3 bg-atmosphere-400 hover:bg-atmosphere-500 rounded-md text-lg text-white font-semibold my-4 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
-          >
-            Iniciar verificación de identidad
-          </button>
-          <!--<button
+          <div class="absolute">
+            <img id="vocal-guidance-icon-off" disabled class="vocal-icon vocal-guidance-icon-off display-none my-0"
+              src="./assets/icons/voice_over_off.svg" onclick="App.onVocalGuidanceSettingsButtonPressed()" />
+          </div>
+        </div>
+        <div id="custom-logo-container" class="flex items-center justify-center">
+          <img src="./assets/img/fv-logo.svg" class="h-8" />
+        </div>
+        <p class="text-left mb-4">
+          Bienvenido a la verificación biométrica. Considere las
+          recomendaciones previas para asegurar un proceso eficiente y sin
+          inconvenientes. Por favor, dedique tiempo para cumplir con las
+          condiciones óptimas.
+        </p>
+        <ul class="p-0 my-6 flex flex-col gap-4">
+          <li class="flex content-center items-center gap-4 flex-row my-0">
+            <svg class="h-6 w-6 flex-none fill-almostwhite-50 stroke-atmosphere-300 stroke-2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="11" />
+              <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
+            </svg>
+            <p class="my-0 text-left">
+              Posiciónate en un entorno tranquilo y libre de distracciones;
+              <span class="text-base font-bold">una habitación, oficina o su vehículo</span>
+              son lugares idóneos para este propósito.
+            </p>
+          </li>
+          <li class="flex content-center items-center gap-4 flex-row my-0">
+            <svg class="h-6 w-6 flex-none fill-almostwhite-50 stroke-atmosphere-300 stroke-2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="11" />
+              <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
+            </svg>
+            <p class="my-0 text-left">
+              Asegúrate de contar con una iluminación adecuada, ya sea natural
+              o artificial; es indispensable que su rostro esté bien iluminado
+              y sin obstrucciones. Por ejemplo,
+              <span class="text-base font-bold text-gray-900">evite el uso de gorras, audífonos o cascos</span>
+              durante este proceso.
+            </p>
+          </li>
+          <li class="flex content-center items-center gap-4 flex-row my-0">
+            <svg class="h-6 w-6 flex-none fill-almostwhite-50 stroke-atmosphere-300 stroke-2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="11" />
+              <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
+            </svg>
+            <p class="my-0 text-left">
+              Ten a tu disposición tu
+              <span class="text-base font-bold text-gray-900">Identificación oficial,</span>
+              ya que será requerida para completar el proceso de verificación.
+            </p>
+          </li>
+        </ul>
+        <label class="font-bold">
+          <input type="checkbox" id="fv-terms-and-conditions" value="terms_and_conditions_agreement" disabled="true" />
+          Entiendo y acepto los términos y condiciones sobre privacidad de
+          información y manejo de datos expresados en este documento.
+        </label>
+        <a target="_blank"
+          href="https://firmavirtual.mx/wp-content/uploads/2024/01/Terminos-y-Condiciones-FIRMAVIRTUAL-2024-1-version.pdf"
+          class="text-atmosphere-400 underline mt-2">
+          Ver terminos y condiciones
+        </a>
+        <button id="id-scan-button" type="button" disabled onclick="App.onPhotoIDMatchPressed()"
+          class="cursor-pointer w-full px-6 py-3 bg-atmosphere-400 hover:bg-atmosphere-500 rounded-md text-lg text-white font-semibold my-4 disabled:bg-almostwhite-300 disabled:text-almostwhite-600">
+          Iniciar verificación de identidad
+        </button>
+        <!--<button
             id="liveness-button"
             type="button"
             disabled
@@ -233,48 +162,36 @@
           >
             Iniciar verificación de identidad
           </button> -->
-          <div
-            id="status"
-            class="flex items-center justify-center gap-2 my-4"
-            aria-live="polite"
-          >
-            <img
-              src="./assets/icons/wifi_tethering_off.svg"
-              class="my-0"
-              alt="Inicializando servicio de verificación"
-            />
-            <strong class="text-sm">Inicializando servicio</strong>
-          </div>
+        <div id="status" class="flex items-center justify-center gap-2 my-4" aria-live="polite">
+          <img src="./assets/icons/wifi_tethering_off.svg" class="my-0" alt="Inicializando servicio de verificación" />
+          <strong class="text-sm">Inicializando servicio</strong>
         </div>
       </div>
-      <div id="additional-screen" display="flex">
-        <div id="additional-screen-image-and-text">
-          <img id="additional-screen-logo" />
-          <h2>Server Upgrade In Progress</h2>
-          <div id="additional-screen-text"></div>
-        </div>
-        <button id="additional-screen-button" class="big-button browser-button">
-          OK
-        </button>
+    </div>
+    <div id="additional-screen" display="flex">
+      <div id="additional-screen-image-and-text">
+        <img id="additional-screen-logo" />
+        <h2>Server Upgrade In Progress</h2>
+        <div id="additional-screen-text"></div>
       </div>
+      <button id="additional-screen-button" class="big-button browser-button">
+        OK
+      </button>
     </div>
-    <div id="copy-right-length">
-      &copy; 2021 FaceTec, Inc. &thinsp;&middot;&thinsp; Multiple US &
-      International Patents Granted&thinsp;&middot;&thinsp; All Rights Reserved
-    </div>
-    <div class="loading-session-token-container">
-      <p id="loading-session-token-text">Network Connection Slow...</p>
-    </div>
-    <div id="theme-transition-overlay">
-      <img
-        id="theme-transition-overlay-img"
-        onerror="this.style.display='none'"
-        onload="this.style.display='block'"
-        src=""
-      />
-    </div>
-    <footer>
-      <!-- <span id="copy-right-section">
+  </div>
+  <div id="copy-right-length">
+    &copy; 2021 FaceTec, Inc. &thinsp;&middot;&thinsp; Multiple US &
+    International Patents Granted&thinsp;&middot;&thinsp; All Rights Reserved
+  </div>
+  <div class="loading-session-token-container">
+    <p id="loading-session-token-text">Network Connection Slow...</p>
+  </div>
+  <div id="theme-transition-overlay">
+    <img id="theme-transition-overlay-img" onerror="this.style.display='none'" onload="this.style.display='block'"
+      src="" />
+  </div>
+  <footer>
+    <!-- <span id="copy-right-section">
         <p id="copy-right">
           &copy; 2021 FaceTec, Inc. &thinsp;&middot;&thinsp; Multiple US &
           International Patents Granted&thinsp;&middot;&thinsp; All Rights
@@ -297,7 +214,8 @@
           >
         </p>
       </span> -->
-      <div class="footer-bottom"></div>
-    </footer>
-  </body>
+    <div class="footer-bottom"></div>
+  </footer>
+</body>
+
 </html>

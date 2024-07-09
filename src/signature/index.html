@@ -94,8 +94,8 @@
       </div>
       <div class="bg-white/70 w-full h-full absolute backdrop-blur-md"></div>
     </div>
-    <div class="w-full h-full scroll-smooth flex flex-row">
-      <div class="w-2/4 p-6 flex justify-center items-center flex-col">
+    <div class="w-full min-h-screen scroll-smooth flex flex-col md:flex-row">
+      <div class="w-full md:w-6/12 p-6 flex justify-center items-center flex-col">
         <div class="mx-auto">
           <img
             src="../assets/img/fv-logo.svg"
@@ -143,23 +143,23 @@
               </label>
             </div>
           </div>
-        </div>
-        <div class="flex flex-col gap-2 mx-auto mt-2">
-          <button
-            id="fv-sign-contract"
-            class="bg-atmosphere-400 px-6 py-3 rounded-md text-white font-bold hover:bg-atmosphere-500 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
-          >
-            Firmar
-          </button>
-          <button
-            id="fv-cancel-sign"
-            class="bg-transparent px-6 py-3 rounded-md font-bold hover:bg-almostwhite-200 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
-          >
-            Cancelar
-          </button>
+          <div class="flex flex-col gap-2 mx-auto mt-2">
+            <button
+              id="fv-sign-contract"
+              class="bg-atmosphere-400 px-6 py-3 rounded-md text-white font-bold hover:bg-atmosphere-500 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
+            >
+              Firmar
+            </button>
+            <button
+              id="fv-cancel-sign"
+              class="bg-transparent px-6 py-3 rounded-md font-bold hover:bg-almostwhite-200 disabled:bg-almostwhite-300 disabled:text-almostwhite-600"
+            >
+              Cancelar
+            </button>
+          </div>
         </div>
       </div>
-      <div class="w-2/4 relative">
+      <div class="w-full md:w-6/12 min-h-36 relative">
         <iframe id="fv-pdf-container"></iframe>
       </div>
     </div>
