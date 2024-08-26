@@ -14,7 +14,7 @@ export class DeveloperStatusMessages {
       "status",
     ) as HTMLElement;
     if (statusElement) {
-      statusElement.innerHTML = `<img src="./assets/icons/network_wifi.svg" class="my-0" alt="Inicializando servicio de verificación">
+      statusElement.innerHTML = `<img src="assets/icons/network_wifi.svg" class="my-0" alt="Inicializando servicio de verificación">
       <strong class="text-sm">${message}</strong>`;
     }
   };
