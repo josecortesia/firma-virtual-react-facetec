@@ -254,7 +254,7 @@ confirmButton &&
 
                   try {
                     const result = await fetch(
-                      `${Config.fvBaseURL}/uploadFiles`,
+                      `${Config.fvBaseURL}/files/uploadBiometryFiles`,
                       {
                         method: "POST",
                         headers: {
@@ -262,16 +262,16 @@ confirmButton &&
                           Authorization: `Bearer ${flashToken}`,
                         },
                         body: JSON.stringify({
-                          file: {
-                            contractData: parsedContractData,
+                          files: {
+                            // contractData: parsedContractData,
                             biometrics: {
                               latestIDScanResult: filterBiometrics,
                             },
                             videoDeclaration: base64String,
                           },
-                          contractID: parsedContractData.contractId,
-                          signerID: parsedContractData.signerId,
-                          ipAddress: data.ip,
+                          document_id: parsedContractData.documentId,
+                          signer_id: parsedContractData.signerId,
+                          ip_address: data.ip,
                         } as any),
                       },
                     );

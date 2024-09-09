@@ -8,6 +8,8 @@ export var Config = (function () {
   var BaseURL = process.env.BASE_URL;
   var fvBaseURL = process.env.FV_BASE_URL;
   var ipBaseURL = process.env.IP_BASE_URL;
+  var email = process.env.SUPPORT_USER_EMAIL;
+  var password = process.env.SUPPORT_USER_PASSWORD;
 
   var PublicFaceScanEncryptionKey =
     process.env.PUBLIC_ENCRYPTION_KEY?.split("?*/").join("\n") ?? "";
@@ -211,5 +213,7 @@ export var Config = (function () {
     retrieveConfigurationWizardCustomization,
     retrieveLowLightConfigurationWizardCustomization,
     retrieveDynamicDimmingConfigurationWizardCustomization,
+    email,
+    password
   };
 })();

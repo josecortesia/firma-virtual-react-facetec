@@ -2,9 +2,9 @@ import { faker } from "@faker-js/faker";
 
 export interface ISessionsCreateUserProps {
   rfc: string;
-  name: string;
-  apPaterno: string;
-  apMaterno: string;
+  first_name: string;
+  last_name: string;
+  mother_last_name: string;
   phone: string;
   email: string;
   password: string;
@@ -16,9 +16,9 @@ export const fakeUser = (): ISessionsCreateUserProps => ({
     firstName: "fv",
     lastName: "fsession",
   }) as string,
-  name: faker.lorem.word({ length: 2 }) as string,
-  apMaterno: faker.lorem.word({ length: 1 }) as string,
-  apPaterno: faker.lorem.word({ length: 1 }) as string,
+  first_name: faker.lorem.word({ length: 2 }) as string,
+  last_name: faker.lorem.word({ length: 1 }) as string,
+  mother_last_name: faker.lorem.word({ length: 1 }) as string,
   password: faker.internet.password() as string,
   phone: faker.string.numeric({ length: 9 }) as string,
   rfc: `99${faker.string.numeric({ length: 4 })}33`,
@@ -29,7 +29,7 @@ const baseUrl = "https://apimex.firmavirtual.com/api";
 
 export const LoginFlashUser = async (email: string, password: string) => {
   try {
-    const result = await fetch(`${baseUrl}/login`, {
+    const result = await fetch(`${baseUrl}/auth/login`, {
       method: "POST",
       body: JSON.stringify({
         email,
@@ -40,7 +40,11 @@ export const LoginFlashUser = async (email: string, password: string) => {
       },
     });
 
-    return result.json();
+    const data = await result.json();
+    if (data.status === "success") {
+      localStorage.setItem("flashUserToken", data.data.token);
+    }
+    return data.data.user;
   } catch (error: any) {
     throw new Error(error);
   }
@@ -51,17 +55,18 @@ export const CreateFlashUser = async () => {
 
   if (flashUser) {
     try {
-      const result = await fetch(`${baseUrl}/register`, {
+      const result = await fetch(`${baseUrl}/auth/register`, {
         method: "POST",
         body: JSON.stringify({
           username: flashUser.email,
           rfc: flashUser.rfc,
-          name: flashUser.name,
-          apMaterno: flashUser.apMaterno,
-          apPaterno: flashUser.apPaterno,
+          first_name: flashUser.first_name,
+          last_name: flashUser.last_name,
+          mother_last_name: flashUser.mother_last_name,
           password: flashUser.password,
           email: flashUser.email,
           phone: flashUser.phone,
+          role_id: 2
         }),
         headers: {
           "Content-Type": "application/json",

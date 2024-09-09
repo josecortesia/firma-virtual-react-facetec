@@ -1,13 +1,15 @@
 const params = new URLSearchParams(window.location.search);
-const signerId = params.get("signerId");
-const contractId = params.get("contractId");
+const signatureCode = params.get("signature_code");
+const documentUuid = params.get("document_uuid");
+const documentId = params.get("document_id");
+const signerId = params.get("signer_id");
 const loader = document.querySelector("#fv-loader");
 const error = document.querySelector("#fv-no-params-message");
 
-if (signerId && contractId) {
+if (signatureCode && documentUuid) {
   localStorage.setItem(
     "contractData",
-    JSON.stringify({ signerId, contractId }),
+    JSON.stringify({ signatureCode, documentUuid, documentId, signerId }),
   );
   setTimeout(() => {
     loader.style.display = "none";
