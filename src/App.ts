@@ -21,7 +21,7 @@ import {
   OnComplete,
 } from "./sampleAppControllerReference/SampleAppControllerReference";
 import { DeveloperStatusMessages } from "./utilities/DeveloperStatusMessages";
-import { CreateFlashUser } from "./utilities/CreateFlashUser";
+import { LoginFlashUser } from "./utilities/CreateFlashUser";
 // import { VerifySignature } from "./utilities/VerifySignature";
 
 export const App = ((): any => {
@@ -42,8 +42,9 @@ export const App = ((): any => {
       "fv-terms-and-conditions",
     ) as HTMLInputElement;
 
-    const flashUser = await CreateFlashUser();
-    flashUserResult = flashUser.data.customer_id;
+      const flashUser = await LoginFlashUser(Config.email!, Config.password!);
+      flashUserResult = flashUser.uuid;
+      // console.log(JSON.parse(localStorage.getItem('contractData')!))
 
     // if (flashUser.data) {
     //   // TODO: verify if contract was signed

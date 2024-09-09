@@ -40,7 +40,7 @@ const displayPDF = async () => {
 
   try {
     const result = await fetch(
-      `${Config.fvBaseURL}/download/${parsedContractData.contractId}`,
+      `${Config.fvBaseURL}/download/${parsedContractData.documentId}`,
       {
         method: "GET",
         headers: {
@@ -98,12 +98,16 @@ confirmButton &&
 
     try {
       const result = await fetch(
-        `${Config.fvBaseURL}/sign/${parsedContractData.contractId}/${parsedContractData.signerId}`,
+        `${Config.fvBaseURL}/signatures/signDocument`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${flashToken}`,
           },
+          body: JSON.stringify({
+            id: parsedContractData.signerId,
+            document_id: parsedContractData.documentId,
+          })
         },
       );
 
