@@ -51,7 +51,7 @@ const displayPDF = async () => {
 
     const response = await result.json();
 
-    const pdfData = atob(response.file);
+    const pdfData = atob(response.data.file);
     const pdfArray = new Uint8Array(pdfData.length);
     for (let i = 0; i < pdfData.length; i++) {
       pdfArray[i] = pdfData.charCodeAt(i);
