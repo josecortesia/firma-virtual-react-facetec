@@ -40,7 +40,7 @@ const displayPDF = async () => {
 
   try {
     const result = await fetch(
-      `${Config.fvBaseURL}/download/${parsedContractData.documentId}`,
+      `${Config.fvBaseURL}/files/download/${parsedContractData.documentId}`,
       {
         method: "GET",
         headers: {
