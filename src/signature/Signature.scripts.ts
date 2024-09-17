@@ -102,12 +102,13 @@ confirmButton &&
         {
           method: "POST",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${flashToken}`,
           },
           body: JSON.stringify({
             id: parsedContractData.signerId,
             document_id: parsedContractData.documentId,
-          })
+          } as any)
         },
       );
 
