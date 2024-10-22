@@ -238,9 +238,9 @@ export class PhotoIDMatchProcessor
     var documentData = JSON.parse(responseJSON.data.documentData);
 
     // TODO: Delete this code block, only to see values.
-    localStorage.setItem('templateInfo', JSON.stringify(documentData.templateInfo));
-    console.log(documentData.templateInfo.templateName)
-    
+    localStorage.setItem('templateInfo', JSON.stringify(documentData));
+    console.log(documentData)
+
     if (documentData.templateInfo.templateName === "UNSET") {
       if (this.intentsWithoutTemplate >= Config.maxIntentsWithoutTemplate) {
         this.cancellationForIntents = 1;
