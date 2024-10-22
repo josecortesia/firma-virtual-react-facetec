@@ -79,7 +79,7 @@ export const App = ((): any => {
             }
           });
         }
-
+        console.log(FaceTecSDK.version());
         DeveloperStatusMessages.logInitializeResult();
       },
     );
