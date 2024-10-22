@@ -234,45 +234,47 @@ export class PhotoIDMatchProcessor
     const responseJSON = JSON.parse(
       this.latestNetworkRequest.responseText,
     );
+    console.log(responseJSON, idScanResult);
+
     // const scanResultBlob = responseJSON.scanResultBlob;
-    var documentData = JSON.parse(responseJSON.data.documentData);
+    // var documentData = JSON.parse(responseJSON.data.documentData);
 
-    // TODO: Delete this code block, only to see values.
-    localStorage.setItem('templateInfo', JSON.stringify(documentData));
-    console.log(documentData)
+    // // TODO: Delete this code block, only to see values.
+    // localStorage.setItem('templateInfo', JSON.stringify(documentData));
+    // console.log(documentData)
 
-    if (documentData.templateInfo.templateName === "UNSET") {
-      if (this.intentsWithoutTemplate >= Config.maxIntentsWithoutTemplate) {
-        this.cancellationForIntents = 1;
-        console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos, cancelando...");
-        idScanResultCallback.cancel();
-      } else {
-        console.log("FaceTecSDKSampleApp", "Se detectó un documento no reconocido, reintenta.");
-        this.intentsWithoutTemplate++;
-      }
-    }
-    if (responseJSON.data.matchLevel < Config.minMatchLevel) {
-      if (this.intentsMatch >= Config.maxIntentsMatch) {
-        this.cancellationForIntents = 2;
-        console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos de Match, cancelando...");
-        idScanResultCallback.cancel();
-      } else {
-        console.log("FaceTecSDKSampleApp", "No se logró autenticar que te corresponda el id, reintenta.");
-        this.intentsMatch++;
-      }
-    }
-    if (responseJSON.data.digitalIDSpoofStatusEnumInt != 0 ||
-      responseJSON.data.faceOnDocumentStatusEnumInt === "CANNOT_CONFIRM_ID_IS_AUTHENTIC" ||
-      responseJSON.data.textOnDocumentStatusEnumInt === "CANNOT_CONFIRM_ID_IS_AUTHENTIC") {
-      if (this.intentsSpoofDetection >= Config.maxIntentsSpoofDetection) {
-        this.cancellationForIntents = 3;
-        console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos de Spoof, cancelando...");
-        idScanResultCallback.cancel();
-      } else {
-        console.log("FaceTecSDKSampleApp", "No se logró autenticar el documento Spoof detectado, reintenta.");
-        this.intentsSpoofDetection++;
-      }
-    }
+    // if (documentData.templateInfo.templateName === "UNSET") {
+    //   if (this.intentsWithoutTemplate >= Config.maxIntentsWithoutTemplate) {
+    //     this.cancellationForIntents = 1;
+    //     console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos, cancelando...");
+    //     idScanResultCallback.cancel();
+    //   } else {
+    //     console.log("FaceTecSDKSampleApp", "Se detectó un documento no reconocido, reintenta.");
+    //     this.intentsWithoutTemplate++;
+    //   }
+    // }
+    // if (responseJSON.data.matchLevel < Config.minMatchLevel) {
+    //   if (this.intentsMatch >= Config.maxIntentsMatch) {
+    //     this.cancellationForIntents = 2;
+    //     console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos de Match, cancelando...");
+    //     idScanResultCallback.cancel();
+    //   } else {
+    //     console.log("FaceTecSDKSampleApp", "No se logró autenticar que te corresponda el id, reintenta.");
+    //     this.intentsMatch++;
+    //   }
+    // }
+    // if (responseJSON.data.digitalIDSpoofStatusEnumInt != 0 ||
+    //   responseJSON.data.faceOnDocumentStatusEnumInt === "CANNOT_CONFIRM_ID_IS_AUTHENTIC" ||
+    //   responseJSON.data.textOnDocumentStatusEnumInt === "CANNOT_CONFIRM_ID_IS_AUTHENTIC") {
+    //   if (this.intentsSpoofDetection >= Config.maxIntentsSpoofDetection) {
+    //     this.cancellationForIntents = 3;
+    //     console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos de Spoof, cancelando...");
+    //     idScanResultCallback.cancel();
+    //   } else {
+    //     console.log("FaceTecSDKSampleApp", "No se logró autenticar el documento Spoof detectado, reintenta.");
+    //     this.intentsSpoofDetection++;
+    //   }
+    // }
 
     //
     // Part 11:  Handles early exit scenarios where there is no IDScan to handle -- i.e. User Cancellation, Timeouts, etc.
