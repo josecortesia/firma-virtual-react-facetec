@@ -234,14 +234,19 @@ export class PhotoIDMatchProcessor
     const responseJSON = JSON.parse(
       this.latestNetworkRequest.responseText,
     );
-    console.log(responseJSON, idScanResult);
-
     // const scanResultBlob = responseJSON.scanResultBlob;
-    // var documentData = JSON.parse(responseJSON.data.documentData);
+    console.log(responseJSON);
+
+    if (responseJSON.data) {
+      var documentData = JSON.parse(responseJSON.data.documentData);
+      if (documentData) {
+        localStorage.setItem('templateInfo', JSON.stringify(documentData.templateInfo));
+      }
+      console.log(documentData)
+    }
+
 
     // // TODO: Delete this code block, only to see values.
-    // localStorage.setItem('templateInfo', JSON.stringify(documentData));
-    // console.log(documentData)
 
     // if (documentData.templateInfo.templateName === "UNSET") {
     //   if (this.intentsWithoutTemplate >= Config.maxIntentsWithoutTemplate) {
