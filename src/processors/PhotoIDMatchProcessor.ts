@@ -237,7 +237,7 @@ export class PhotoIDMatchProcessor
     // const scanResultBlob = responseJSON.scanResultBlob;
     console.log(responseJSON);
 
-    if (responseJSON.data) {
+    if (responseJSON.data.documentData) {
       var documentData = JSON.parse(responseJSON.data.documentData);
       if (documentData) {
         localStorage.setItem('templateInfo', JSON.stringify(documentData.templateInfo));
