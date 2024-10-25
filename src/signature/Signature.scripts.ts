@@ -142,6 +142,8 @@ cancelButton &&
       localStorage.removeItem("biometrics");
       localStorage.removeItem("contractData");
       localStorage.removeItem("flashUserToken");
+      localStorage.removeItem("templateInfo");
+      // localStorage.removeItem("curp");
       window.location.href = "/";
     });
   });
