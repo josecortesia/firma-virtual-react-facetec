@@ -34,12 +34,8 @@ export class PhotoIDMatchProcessor
   success: boolean;
   sampleAppControllerReference: SampleAppControllerReference;
 
-  intentsWithoutTemplate: number;
-  cancellationForIntents: number;
-  intentsMatch: number;
-  intentsSpoofDetection: number;
-
-  templateMatches: string[];
+  intentsCount: number;
+  // templateMatches: string[];
 
   constructor(sessionToken: string, sampleAppControllerReference: any) {
     //
@@ -52,16 +48,14 @@ export class PhotoIDMatchProcessor
     this.latestIDScanResult = null;
     this.cancelledDueToNetworkError = false;
 
-
-    this.intentsWithoutTemplate = 0;
-    this.cancellationForIntents = 0;
-    this.intentsMatch = 0;
-    this.intentsSpoofDetection = 0;
-    this.templateMatches = [
-      'Mexico - ID Card (Voter) - 2020_UC - Horizontal [v9]',
-      'Mexico - ID Card (Voter) - 2018 - Horizontal [v3]',
-      'Mexico - ID Card (Voter) - 2013 - Horizontal [v4]'
-    ]
+    // Manejar un solo contador para los intentos y agregar a las validaciones de abajo
+    this.intentsCount = 0;
+    // TODO: Uncomment when need to do validation of INE with RENAPO
+    // this.templateMatches = [
+    //   'Mexico - ID Card (Voter) - 2020_UC - Horizontal [v9]',
+    //   'Mexico - ID Card (Voter) - 2018 - Horizontal [v3]',
+    //   'Mexico - ID Card (Voter) - 2013 - Horizontal [v4]'
+    // ];
 
     // In v9.2.2+, configure the messages that will be displayed to the User in each of the possible cases.
     // Based on the internal processing and decision logic about how the flow gets advanced, the FaceTec SDK will use the appropriate, configured message.
@@ -242,49 +236,49 @@ export class PhotoIDMatchProcessor
       this.latestNetworkRequest.responseText,
     );
     // const scanResultBlob = responseJSON.scanResultBlob;
-    console.log(responseJSON);
-
     if (responseJSON.data.documentData) {
       var documentData = JSON.parse(responseJSON.data.documentData);
-      // TODO: Delete this code block, only to see values.
       localStorage.setItem('templateInfo', JSON.stringify(documentData.templateInfo));
-      console.log(documentData)
       
+      // TODO: Uncomment when need to do validation of INE with RENAPO
       // Vaidacion de documento INE
-      if (this.templateMatches.includes(documentData.templateInfo.templateName)) {
-        console.log('Documento es INE');
-      }
+      // if (this.templateMatches.includes(documentData.templateInfo.templateName)) {
+      //   console.log('Documento es INE')
+      //   // Curp = idNumber2 -> Guardar en localStorage
+      //   localStorage.setItem('curp', JSON.stringify(documentData.templateInfo.idNumber2));
+      // }
 
+      // Para casos donde no haya match con ningun tipo de documento registrado
       if (documentData.templateInfo.templateName === "UNSET") {
-        if (this.intentsWithoutTemplate >= Config.maxIntentsWithoutTemplate) {
-          this.cancellationForIntents = 1;
+        if (this.intentsCount >= Config.maxIntentsWithoutTemplate) {
+          this.intentsCount = 1;
           console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos, cancelando...");
           idScanResultCallback.cancel();
         } else {
           console.log("FaceTecSDKSampleApp", "Se detectó un documento no reconocido, reintenta.");
-          this.intentsWithoutTemplate++;
+          this.intentsCount++;
         }
       }
       if (responseJSON.data.matchLevel < Config.minMatchLevel) {
-        if (this.intentsMatch >= Config.maxIntentsMatch) {
-          this.cancellationForIntents = 2;
+        if (this.intentsCount >= Config.maxIntentsMatch) {
+          this.intentsCount = 2;
           console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos de Match, cancelando...");
           idScanResultCallback.cancel();
         } else {
           console.log("FaceTecSDKSampleApp", "No se logró autenticar que te corresponda el id, reintenta.");
-          this.intentsMatch++;
+          this.intentsCount++;
         }
       }
       if (responseJSON.data.digitalIDSpoofStatusEnumInt != 0 ||
         responseJSON.data.faceOnDocumentStatusEnumInt === "CANNOT_CONFIRM_ID_IS_AUTHENTIC" ||
         responseJSON.data.textOnDocumentStatusEnumInt === "CANNOT_CONFIRM_ID_IS_AUTHENTIC") {
-        if (this.intentsSpoofDetection >= Config.maxIntentsSpoofDetection) {
-          this.cancellationForIntents = 3;
+        if (this.intentsCount >= Config.maxIntentsSpoofDetection) {
+          this.intentsCount = 3;
           console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos de Spoof, cancelando...");
           idScanResultCallback.cancel();
         } else {
           console.log("FaceTecSDKSampleApp", "No se logró autenticar el documento Spoof detectado, reintenta.");
-          this.intentsSpoofDetection++;
+          this.intentsCount++;
         }
       }
     }

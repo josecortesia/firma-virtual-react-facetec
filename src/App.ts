@@ -161,8 +161,22 @@ export const App = ((): any => {
   ): void => {
     latestSessionResult = sessionResult;
     latestIDScanResult = idScanResult;
+    // TODO: Uncomment validation for INE with RENAPO
+    // let templateMatches = [
+    //   'Mexico - ID Card (Voter) - 2020_UC - Horizontal [v9]',
+    //   'Mexico - ID Card (Voter) - 2018 - Horizontal [v3]',
+    //   'Mexico - ID Card (Voter) - 2013 - Horizontal [v4]'
+    // ];
+    // let templateInfo = JSON.parse(localStorage.getItem('templateInfo')!); // Remove non null assertion
 
     if (latestProcessor.isSuccess()) {
+      // Realizar proceso de Validacion de CURP con Renapo
+      // Validar que el template sea INE (array de templates etc...)
+      // Validar curp con renapo
+      // if (templateInfo && templateMatches.includes(templateInfo.templateName)) {
+      //   let curp = localStorage.getItem('curp')!;
+      //   console.log(curp)
+      // }
       localStorage.setItem(
         "biometrics",
         JSON.stringify({ latestIDScanResult, flashUserResult }),
