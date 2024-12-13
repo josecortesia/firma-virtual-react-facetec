@@ -1,9 +1,30 @@
 export var Config = (function () {
+  
   var ProductionKey = {
     domains: "",
     expiryDate: process.env.EXPIRYDATE,
     key: process.env.KEY,
   };
+
+  const getData = async () => {
+    try {
+      const response = await fetch(`${process.env.BASE_URL}/getInitString/web`);
+      const json = await response.json();
+      const data = json.data.licenseText;
+      ProductionKey = {
+        domains: "",
+        expiryDate: data.expiryDate,
+        key: data.key,
+      };
+    }
+    catch(err) {
+      console.log(err)
+      return undefined;
+    }
+  }
+
+  getData();
+  
   var DeviceKeyIdentifier = process.env.DEVICE_KEY_IDENTIFIER;
   var BaseURL = process.env.BASE_URL;
   var fvBaseURL = process.env.FV_BASE_URL;

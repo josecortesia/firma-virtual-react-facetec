@@ -44,13 +44,6 @@ export const App = ((): any => {
 
       const flashUser = await LoginFlashUser(Config.email!, Config.password!);
       flashUserResult = flashUser.uuid;
-      // console.log(JSON.parse(localStorage.getItem('contractData')!))
-
-    // if (flashUser.data) {
-    //   // TODO: verify if contract was signed
-    //   const signature = await VerifySignature();
-    //   console.log(signature);
-    // }
 
     SampleAppUtilities.formatUIForDevice();
     FaceTecSDK.setResourceDirectory("../../core-sdk/FaceTecSDK.js/resources");
