@@ -34,6 +34,9 @@ export class PhotoIDMatchProcessor
   success: boolean;
   sampleAppControllerReference: SampleAppControllerReference;
 
+  intentsCount: number;
+  // templateMatches: string[];
+
   constructor(sessionToken: string, sampleAppControllerReference: any) {
     //
     // DEVELOPER NOTE:  These properties are for demonstration purposes only so the Sample App can get information about what is happening in the processor.
@@ -44,6 +47,15 @@ export class PhotoIDMatchProcessor
     this.latestSessionResult = null;
     this.latestIDScanResult = null;
     this.cancelledDueToNetworkError = false;
+
+    // Manejar un solo contador para los intentos y agregar a las validaciones de abajo
+    this.intentsCount = 0;
+    // TODO: Uncomment when need to do validation of INE with RENAPO
+    // this.templateMatches = [
+    //   'Mexico - ID Card (Voter) - 2020_UC - Horizontal [v9]',
+    //   'Mexico - ID Card (Voter) - 2018 - Horizontal [v3]',
+    //   'Mexico - ID Card (Voter) - 2013 - Horizontal [v4]'
+    // ];
 
     // In v9.2.2+, configure the messages that will be displayed to the User in each of the possible cases.
     // Based on the internal processing and decision logic about how the flow gets advanced, the FaceTec SDK will use the appropriate, configured message.
@@ -220,6 +232,57 @@ export class PhotoIDMatchProcessor
   ): void => {
     this.latestIDScanResult = idScanResult;
 
+    const responseJSON = JSON.parse(
+      this.latestNetworkRequest.responseText,
+    );
+    // const scanResultBlob = responseJSON.scanResultBlob;
+    if (responseJSON.data.documentData) {
+      var documentData = JSON.parse(responseJSON.data.documentData);
+      localStorage.setItem('templateInfo', JSON.stringify(documentData.templateInfo));
+      
+      // TODO: Uncomment when need to do validation of INE with RENAPO
+      // Vaidacion de documento INE
+      // if (this.templateMatches.includes(documentData.templateInfo.templateName)) {
+      //   console.log('Documento es INE')
+      //   // Curp = idNumber2 -> Guardar en localStorage
+      //   localStorage.setItem('curp', JSON.stringify(documentData.templateInfo.idNumber2));
+      // }
+
+      // Para casos donde no haya match con ningun tipo de documento registrado
+      if (documentData.templateInfo.templateName === "UNSET") {
+        if (this.intentsCount >= Config.maxIntentsWithoutTemplate) {
+          this.intentsCount = 1;
+          console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos, cancelando...");
+          idScanResultCallback.cancel();
+        } else {
+          console.log("FaceTecSDKSampleApp", "Se detectó un documento no reconocido, reintenta.");
+          this.intentsCount++;
+        }
+      }
+      if (responseJSON.data.matchLevel < Config.minMatchLevel) {
+        if (this.intentsCount >= Config.maxIntentsMatch) {
+          this.intentsCount = 2;
+          console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos de Match, cancelando...");
+          idScanResultCallback.cancel();
+        } else {
+          console.log("FaceTecSDKSampleApp", "No se logró autenticar que te corresponda el id, reintenta.");
+          this.intentsCount++;
+        }
+      }
+      if (responseJSON.data.digitalIDSpoofStatusEnumInt != 0 ||
+        responseJSON.data.faceOnDocumentStatusEnumInt === "CANNOT_CONFIRM_ID_IS_AUTHENTIC" ||
+        responseJSON.data.textOnDocumentStatusEnumInt === "CANNOT_CONFIRM_ID_IS_AUTHENTIC") {
+        if (this.intentsCount >= Config.maxIntentsSpoofDetection) {
+          this.intentsCount = 3;
+          console.log("FaceTecSDKSampleApp", "Se excedió el limite de intentos de Spoof, cancelando...");
+          idScanResultCallback.cancel();
+        } else {
+          console.log("FaceTecSDKSampleApp", "No se logró autenticar el documento Spoof detectado, reintenta.");
+          this.intentsCount++;
+        }
+      }
+    }
+
     //
     // Part 11:  Handles early exit scenarios where there is no IDScan to handle -- i.e. User Cancellation, Timeouts, etc.
     //
@@ -237,7 +300,7 @@ export class PhotoIDMatchProcessor
     // minMatchLevel allows Developers to specify a Match Level that they would like to target in order for success to be true in the response.
     // minMatchLevel cannot be set to 0.
     // minMatchLevel setting does not affect underlying Algorithm behavior.
-    const MinMatchLevel = 3;
+    const MinMatchLevel = 5;
 
     //
     // Part 12:  Get essential data off the FaceTecIDScanResult

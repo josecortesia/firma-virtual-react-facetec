@@ -40,7 +40,7 @@ const displayPDF = async () => {
 
   try {
     const result = await fetch(
-      `${Config.fvBaseURL}/files/download/${parsedContractData.documentId}`,
+      `${Config.fvBaseURL}/files/download/${parsedContractData.documentUuid}.pdf`,
       {
         method: "GET",
         headers: {
@@ -142,6 +142,8 @@ cancelButton &&
       localStorage.removeItem("biometrics");
       localStorage.removeItem("contractData");
       localStorage.removeItem("flashUserToken");
+      localStorage.removeItem("templateInfo");
+      // localStorage.removeItem("curp");
       window.location.href = "/";
     });
   });

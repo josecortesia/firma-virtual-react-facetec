@@ -199,6 +199,11 @@ export var Config = (function () {
   var currentDynamicDimmingCustomization: any;
   var wasSDKConfiguredWithConfigWizard = true;
 
+  var minMatchLevel: number = 5;
+  var maxIntentsMatch: number = 3;
+  var maxIntentsWithoutTemplate: number = 3;
+  var maxIntentsSpoofDetection: number = 3;
+
   return {
     wasSDKConfiguredWithConfigWizard,
     DeviceKeyIdentifier,
@@ -213,6 +218,10 @@ export var Config = (function () {
     retrieveConfigurationWizardCustomization,
     retrieveLowLightConfigurationWizardCustomization,
     retrieveDynamicDimmingConfigurationWizardCustomization,
+    minMatchLevel,
+    maxIntentsMatch,
+    maxIntentsWithoutTemplate,
+    maxIntentsSpoofDetection,
     email,
     password
   };
