@@ -25,7 +25,7 @@ export const fakeUser = (): ISessionsCreateUserProps => ({
   username: faker.internet.userName() as string,
 });
 
-const baseUrl = "https://apimex.firmavirtual.com/api";
+const baseUrl = "https://demoapimex.firmavirtual.com/api";
 
 export const LoginFlashUser = async (email: string, password: string) => {
   try {
