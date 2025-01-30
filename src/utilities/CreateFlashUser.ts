@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { Config } from "../../Config";
 
 export interface ISessionsCreateUserProps {
   rfc: string;
@@ -25,11 +26,9 @@ export const fakeUser = (): ISessionsCreateUserProps => ({
   username: faker.internet.userName() as string,
 });
 
-const baseUrl = "https://apimex.firmavirtual.com/api";
-
 export const LoginFlashUser = async (email: string, password: string) => {
   try {
-    const result = await fetch(`${baseUrl}/auth/login`, {
+    const result = await fetch(`${Config.fvBaseURL}/auth/login`, {
       method: "POST",
       body: JSON.stringify({
         email,
@@ -55,7 +54,7 @@ export const CreateFlashUser = async () => {
 
   if (flashUser) {
     try {
-      const result = await fetch(`${baseUrl}/auth/register`, {
+      const result = await fetch(`${Config.fvBaseURL}/auth/register`, {
         method: "POST",
         body: JSON.stringify({
           username: flashUser.email,
