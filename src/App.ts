@@ -42,15 +42,13 @@ export const App = ((): any => {
       "fv-terms-and-conditions",
     ) as HTMLInputElement;
 
-      const flashUser = await LoginFlashUser(Config.email!, Config.password!);
-      flashUserResult = flashUser.uuid;
-      // console.log(JSON.parse(localStorage.getItem('contractData')!))
-
-    // if (flashUser.data) {
-    //   // TODO: verify if contract was signed
-    //   const signature = await VerifySignature();
-    //   console.log(signature);
-    // }
+    const flashUser = await LoginFlashUser(Config.email!, Config.password!);
+    flashUserResult = flashUser.uuid;
+    
+    let step = localStorage.getItem('step');
+    if (step === 'Signature') {
+      window.location.href = "/signature";
+    }
 
     SampleAppUtilities.formatUIForDevice();
     FaceTecSDK.setResourceDirectory("../../core-sdk/FaceTecSDK.js/resources");
