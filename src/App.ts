@@ -56,7 +56,7 @@ export const App = ((): any => {
       FaceTecSDK,
       function (initializedSuccessfully: boolean) {
         if (step === 'Signature') {
-          window.location.href = "./src/signature";
+          window.location.href = "/src/signature";
         }
         if (initializedSuccessfully) {
           checkboxTermsConditions.disabled = false;
