@@ -18,7 +18,11 @@ if (signatureCode && documentUuid) {
   );
   setTimeout(() => {
     loader.style.display = "none";
-    window.location.href = "./src";
+    if (step === 'Signature') {
+      window.location.href = "./src/signature";
+    } else {
+      window.location.href = "./src";
+    }    
   }, 2000);
 } else {
   setTimeout(() => {
