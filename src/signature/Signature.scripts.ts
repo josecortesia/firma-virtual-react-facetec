@@ -29,6 +29,9 @@ const signatureAgreement = document.getElementById(
   "fv-signature-agreement",
 ) as HTMLInputElement;
 
+
+
+
 const flashToken = localStorage.getItem("flashUserToken");
 const contractData: string = localStorage.getItem("contractData") as string;
 const parsedContractData = JSON.parse(contractData);
@@ -143,6 +146,7 @@ cancelButton &&
       localStorage.removeItem("contractData");
       localStorage.removeItem("flashUserToken");
       localStorage.removeItem("templateInfo");
+      localStorage.removeItem("step");
       // localStorage.removeItem("curp");
       window.location.href = "/";
     });
