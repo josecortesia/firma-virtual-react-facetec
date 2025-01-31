@@ -47,7 +47,7 @@ export const App = ((): any => {
     
     let step = localStorage.getItem('step');
     if (step === 'Signature') {
-      window.location.href = "/signature";
+      window.location.href = "/src/signature";
     }
 
     SampleAppUtilities.formatUIForDevice();
