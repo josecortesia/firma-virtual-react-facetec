@@ -3,8 +3,13 @@ const signatureCode = params.get("signature_code");
 const documentUuid = params.get("document_uuid");
 const documentId = params.get("document_id");
 const signerId = params.get("signer_id");
+const step = params.get("step");
 const loader = document.querySelector("#fv-loader");
 const error = document.querySelector("#fv-no-params-message");
+
+if(step && step !== 'null' && step !== '') {
+  localStorage.setItem('step', step);
+}
 
 if (signatureCode && documentUuid) {
   localStorage.setItem(
@@ -13,7 +18,11 @@ if (signatureCode && documentUuid) {
   );
   setTimeout(() => {
     loader.style.display = "none";
-    window.location.href = "./src";
+    if (step === 'Signature') {
+      window.location.href = "./src/signature";
+    } else {
+      window.location.href = "./src";
+    }    
   }, 2000);
 } else {
   setTimeout(() => {

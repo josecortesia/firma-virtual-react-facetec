@@ -42,8 +42,9 @@ export const App = ((): any => {
       "fv-terms-and-conditions",
     ) as HTMLInputElement;
 
-      const flashUser = await LoginFlashUser(Config.email!, Config.password!);
-      flashUserResult = flashUser.uuid;
+    const flashUser = await LoginFlashUser(Config.email!, Config.password!);
+    flashUserResult = flashUser.uuid;
+  
 
     SampleAppUtilities.formatUIForDevice();
     FaceTecSDK.setResourceDirectory("../../core-sdk/FaceTecSDK.js/resources");
