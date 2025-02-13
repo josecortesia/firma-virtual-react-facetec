@@ -145,6 +145,7 @@ cancelButton &&
       localStorage.removeItem("contractData");
       localStorage.removeItem("flashUserToken");
       localStorage.removeItem("templateInfo");
+      localStorage.removeItem("documentData");
       localStorage.removeItem("step");
       // localStorage.removeItem("curp");
       window.location.href = "/";
