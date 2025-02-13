@@ -100,6 +100,7 @@ confirmButton &&
     cancelButton.disabled = true;
 
     try {
+      const documentData = JSON.parse(localStorage.getItem('documentData')!);
       const result = await fetch(
         `${Config.fvBaseURL}/signatures/signDocument`,
         {
@@ -111,6 +112,7 @@ confirmButton &&
           body: JSON.stringify({
             id: parsedContractData.signerId,
             document_id: parsedContractData.documentId,
+            data: documentData
           } as any)
         },
       );

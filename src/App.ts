@@ -44,11 +44,7 @@ export const App = ((): any => {
 
     const flashUser = await LoginFlashUser(Config.email!, Config.password!);
     flashUserResult = flashUser.uuid;
-    
-    // let step = localStorage.getItem('step');
-    // if (step === 'Signature') {
-    //   window.location.href = "/src/signature";
-    // }
+  
 
     SampleAppUtilities.formatUIForDevice();
     FaceTecSDK.setResourceDirectory("../../core-sdk/FaceTecSDK.js/resources");
