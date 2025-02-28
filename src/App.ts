@@ -1,6 +1,7 @@
 import "./css/style.css";
 import "./agreement/Agreement.scripts";
 import "./signature/Signature.scripts";
+import "./choose/Choose.scripts";
 import { Config } from "../Config";
 import { FaceTecSDK } from "../core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { LivenessCheckProcessor } from "./processors/LivenessCheckProcessor";
@@ -176,7 +177,8 @@ export const App = ((): any => {
         JSON.stringify({ latestIDScanResult, flashUserResult }),
       );
 
-      window.location.href = "./agreement";
+      // window.location.href = "./agreement";
+      window.location.href = "./choose";
       DeveloperStatusMessages.displayMessage("See logs for details");
     } else {
       DeveloperStatusMessages.logScanOncompleteResult(
