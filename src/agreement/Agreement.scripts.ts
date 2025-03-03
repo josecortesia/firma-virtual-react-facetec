@@ -1,4 +1,5 @@
 import { Config } from "../../Config";
+import { compressVideo, uploadBiometricValidation } from "../services";
 
 let mediaRecorder: MediaRecorder;
 const recordedChunks: string[] = [];
@@ -169,136 +170,71 @@ deleteButton &&
     }
   });
 
-confirmButton &&
-  confirmButton.addEventListener("click", async () => {
-    const loader: HTMLDivElement = document.getElementById(
-      "fv-loader-curtain",
-    ) as HTMLDivElement;
-    const flashToken = localStorage.getItem("flashUserToken");
-    const contractData: string = localStorage.getItem("contractData") as string;
-    const biometrics: string = localStorage.getItem("biometrics") as string;
+confirmButton && confirmButton.addEventListener("click", async () => {
+  const loader: HTMLDivElement = document.getElementById("fv-loader-curtain",) as HTMLDivElement;
+  loader.style.visibility = "visible";
 
-    const filterBiometrics = {
-      status: JSON.parse(biometrics).latestIDScanResult.status,
-      sessionId: JSON.parse(biometrics).latestIDScanResult.sessionId,
-      isCompletelyDone:
-        JSON.parse(biometrics).latestIDScanResult.isCompletelyDone,
-      idScan: JSON.parse(biometrics).latestIDScanResult.idScan,
-      backImages: JSON.parse(biometrics).latestIDScanResult.backImages[0],
-      frontImages: JSON.parse(biometrics).latestIDScanResult.frontImages[0],
-    };
-    const parsedContractData = JSON.parse(contractData);
+  try {
+    const result = await compressVideo(videoStatement);
+    if (result?.ok) {
+      const response = await result.json();
+      if (response.data.status === "finished") {
+        const fileUrl = response.data.tasks.find(
+          (t) => t.name === "agreement_export",
+        );
+        const mp4 = await fetch(fileUrl.result.files[0].url);
 
-    loader.style.visibility = "visible";
-    const BASE_URL = process.env.CLOUD_CONVERT_BASE_URL ?? "";
-    try {
-      const result = await fetch(BASE_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.CLOUD_CONVERT_API_KEY}`,
-        },
-        body: JSON.stringify({
-          tasks: {
-            agreement_import: {
-              operation: "import/base64",
-              file: videoStatement,
-              filename: "agreement.mp4",
-            },
-            agreement_convert: {
-              operation: "convert",
-              input_format: "webm",
-              output_format: "mp4",
-              engine: "ffmpeg",
-              input: ["agreement_import"],
-              video_codec: "x264",
-              crf: 23,
-              preset: "medium",
-              fit: "scale",
-              subtitles_mode: "none",
-              audio_codec: "aac",
-              audio_bitrate: 128,
-            },
-            agreement_export: {
-              operation: "export/url",
-              input: ["agreement_convert"],
-              inline: false,
-              archive_multiple_files: false,
-            },
-          },
-          tag: "jobbuilder",
-        }),
-      });
-      if (result.ok) {
-        const response = await result.json();
-        if (response.data.status === "finished") {
-          const fileUrl = response.data.tasks.find(
-            t => t.name === "agreement_export",
-          );
-          const mp4 = await fetch(fileUrl.result.files[0].url);
+        if (mp4.ok) {
+          const blob = await mp4.blob();
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = async () => {
+            const base64 = reader.result as string;
+            const base64String = base64 ? base64.split("data:video/mp4;base64,")[1] : "";
+            const contractData: string = localStorage.getItem("contractData") as string;
+            const biometrics: string = localStorage.getItem("biometrics") as string;
+            const parsedBiometrics = JSON.parse(biometrics);
 
-          if (mp4.ok) {
-            const blob = await mp4.blob();
-            const reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onloadend = async () => {
-              const base64 = reader.result as string;
-              const base64String = base64
-                ? base64.split("data:video/mp4;base64,")[1]
-                : "";
+            const biometryData = {
+              status: parsedBiometrics.latestIDScanResult.status,
+              session_id: parsedBiometrics.latestIDScanResult.sessionId,
+              is_done: parsedBiometrics.latestIDScanResult.isCompletelyDone,
+              scan_id: parsedBiometrics.latestIDScanResult.idScan,
+              back_image: parsedBiometrics.latestIDScanResult.backImages[0],
+              front_image: parsedBiometrics.latestIDScanResult.frontImages[0],
+            }
 
-              try {
-                const ip = await fetch(Config.ipBaseURL ?? "");
-                if (ip.ok) {
-                  const data = await ip.json();
+            const documentData = JSON.parse(contractData);
 
-                  try {
-                    const result = await fetch(
-                      `${Config.fvBaseURL}/files/uploadBiometryFiles`,
-                      {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Bearer ${flashToken}`,
-                        },
-                        body: JSON.stringify({
-                          files: {
-                            // contractData: parsedContractData,
-                            biometrics: {
-                              latestIDScanResult: filterBiometrics,
-                            },
-                            videoDeclaration: base64String,
-                          },
-                          document_id: parsedContractData.documentId,
-                          signer_id: parsedContractData.signerId,
-                          ip_address: data.ip,
-                        } as any),
-                      },
-                    );
+            const ip = await fetch(Config.ipBaseURL ?? "");
+            const ipData = await ip.json();
 
-                    console.log('result: ', result);
+            const data = {
+              files: {
+                biometry: biometryData,
+                video: base64String,
+              },
+              document_id: parseInt(documentData.documentId),
+              signer_id: parseInt(documentData.signerId),
+              ip_address: ipData.ip,
+            }
 
-                    if (result.ok) {
-                      loader.style.visibility = "hidden";
-                      window.location.href = "../signature";
-                    } else {
-                      console.error(result);
-                      loader.style.visibility = "hidden";
-                      if (modalError) modalError.style.visibility = "visible";
-                    }
-                  } catch (e) {
-                    console.error(e);
-                  }
-                }
-              } catch (e) {
-                console.error(e);
-              }
-            };
+            const result = await uploadBiometricValidation(data);
+
+            if (result?.ok) {
+              loader.style.visibility = "hidden";
+              window.location.href = "../signature";
+            } else {
+              console.error(result);
+              loader.style.visibility = "hidden";
+              if (modalError) modalError.style.visibility = "visible";
+            }
           }
         }
       }
-    } catch (err: any) {
-      loader.style.visibility = "hidden";
-      throw new Error(err);
     }
-  });
+  } catch (err: any) {
+    loader.style.visibility = "hidden";
+    throw new Error(err);
+  }
+});

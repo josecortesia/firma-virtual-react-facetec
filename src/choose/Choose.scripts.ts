@@ -15,32 +15,29 @@ const modalError: HTMLElement = document.getElementById(
 
 
 videoOptionButton && videoOptionButton.addEventListener('click', () => {
-  console.log('Video button clicked!')
   const contractData: string = localStorage.getItem("contractData") as string;
   const biometrics: string = localStorage.getItem("biometrics") as string;
 
   if(!contractData && !biometrics) return;
 
-  window.location.href = "./../agreement";
-
+  window.location.href = "../agreement";
 })
 
 signOptionButton && signOptionButton.addEventListener('click', async () => {
-
   const loader: HTMLDivElement = document.getElementById(
     "fv-loader-curtain",
   ) as HTMLDivElement;
-  console.log('Signature button clicked!')
   const contractData: string = localStorage.getItem("contractData") as string;
   const biometrics: string = localStorage.getItem("biometrics") as string;
+  const parsedBiometrics = JSON.parse(biometrics);
 
   const biometryData = {
-    status: JSON.parse(biometrics).latestIDScanResult.status,
-    session_id: JSON.parse(biometrics).latestIDScanResult.sessionId,
-    is_completed: JSON.parse(biometrics).latestIDScanResult.isCompletelyDone,
-    scan_id: JSON.parse(biometrics).latestIDScanResult.idScan,
-    back_image: JSON.parse(biometrics).latestIDScanResult.backImages[0],
-    front_image: JSON.parse(biometrics).latestIDScanResult.frontImages[0],
+    status: parsedBiometrics.latestIDScanResult.status,
+    session_id: parsedBiometrics.latestIDScanResult.sessionId,
+    is_done: parsedBiometrics.latestIDScanResult.isCompletelyDone,
+    scan_id: parsedBiometrics.latestIDScanResult.idScan,
+    back_image: parsedBiometrics.latestIDScanResult.backImages[0],
+    front_image: parsedBiometrics.latestIDScanResult.frontImages[0],
   }
 
   const documentData = JSON.parse(contractData);
