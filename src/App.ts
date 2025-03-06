@@ -23,6 +23,7 @@ import {
 } from "./sampleAppControllerReference/SampleAppControllerReference";
 import { DeveloperStatusMessages } from "./utilities/DeveloperStatusMessages";
 import { LoginFlashUser } from "./utilities/CreateFlashUser";
+import { uploadBiometricValidation } from "./services";
 // import { VerifySignature } from "./utilities/VerifySignature";
 
 export const App = ((): any => {
@@ -45,7 +46,7 @@ export const App = ((): any => {
 
     const flashUser = await LoginFlashUser(Config.email!, Config.password!);
     flashUserResult = flashUser.uuid;
-  
+
 
     SampleAppUtilities.formatUIForDevice();
     FaceTecSDK.setResourceDirectory("../../core-sdk/FaceTecSDK.js/resources");
@@ -149,11 +150,11 @@ export const App = ((): any => {
   // Show the final result with the Session Review Screen.
   let onComplete: OnComplete;
 
-  onComplete = (
+  onComplete = async (
     sessionResult: FaceTecSessionResult | null,
     idScanResult: FaceTecIDScanResult | null,
     latestNetworkResponseStatus: number,
-  ): void => {
+  ): Promise<void> => {
     latestSessionResult = sessionResult;
     latestIDScanResult = idScanResult;
     // TODO: Uncomment validation for INE with RENAPO
@@ -177,9 +178,54 @@ export const App = ((): any => {
         JSON.stringify({ latestIDScanResult, flashUserResult }),
       );
 
-      // window.location.href = "./agreement";
-      window.location.href = "./choose";
-      DeveloperStatusMessages.displayMessage("See logs for details");
+      let requireVideo = localStorage.getItem('require_video');
+      if (requireVideo) {
+        window.location.href = "./agreement";
+      } else {
+        const loader: HTMLDivElement = document.getElementById(
+          "fv-loader-curtain",
+        ) as HTMLDivElement;
+        const contractData: string = localStorage.getItem("contractData") as string;
+        const biometrics: string = localStorage.getItem("biometrics") as string;
+        const parsedBiometrics = JSON.parse(biometrics);
+
+        const biometryData = {
+          status: parsedBiometrics.latestIDScanResult.status,
+          session_id: parsedBiometrics.latestIDScanResult.sessionId,
+          is_done: parsedBiometrics.latestIDScanResult.isCompletelyDone,
+          scan_id: parsedBiometrics.latestIDScanResult.idScan,
+          back_image: parsedBiometrics.latestIDScanResult.backImages[0],
+          front_image: parsedBiometrics.latestIDScanResult.frontImages[0],
+        }
+
+        const documentData = JSON.parse(contractData);
+
+        const ip = await fetch(Config.ipBaseURL ?? "");
+        const ipData = await ip.json();
+
+        const data = {
+          files: {
+            biometry: biometryData
+          },
+          document_id: parseInt(documentData.documentId),
+          signer_id: parseInt(documentData.signerId),
+          ip_address: ipData.ip,
+        }
+
+        loader.style.visibility = "visible";
+        const response = await uploadBiometricValidation(data);
+
+        if (response?.ok) {
+          loader.style.visibility = "hidden";
+          window.location.href = "../signature";
+        } else {
+          console.error(response);
+          loader.style.visibility = "hidden";
+        }
+      }
+
+      // window.location.href = "./choose";
+      DeveloperStatusMessages.displayMessage("Now you will be redirected to the next step.");
     } else {
       DeveloperStatusMessages.logScanOncompleteResult(
         sessionResult,
