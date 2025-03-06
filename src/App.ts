@@ -185,6 +185,9 @@ export const App = ((): any => {
         const loader: HTMLDivElement = document.getElementById(
           "fv-loader-curtain",
         ) as HTMLDivElement;
+        const modalError: HTMLElement = document.getElementById(
+          "fv-modal-error",
+        ) as HTMLDivElement;
         const contractData: string = localStorage.getItem("contractData") as string;
         const biometrics: string = localStorage.getItem("biometrics") as string;
         const parsedBiometrics = JSON.parse(biometrics);
@@ -221,6 +224,7 @@ export const App = ((): any => {
         } else {
           console.error(response);
           loader.style.visibility = "hidden";
+          if (modalError) modalError.style.visibility = "visible";
         }
       }
 
