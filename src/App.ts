@@ -217,7 +217,7 @@ export const App = ((): any => {
 
         if (response?.ok) {
           loader.style.visibility = "hidden";
-          window.location.href = "../signature";
+          window.location.href = "./signature";
         } else {
           console.error(response);
           loader.style.visibility = "hidden";
