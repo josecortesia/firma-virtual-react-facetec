@@ -4,11 +4,16 @@ const documentUuid = params.get("document_uuid");
 const documentId = params.get("document_id");
 const signerId = params.get("signer_id");
 const step = params.get("step");
+const requireVideo = params.get("require_video");
 const loader = document.querySelector("#fv-loader");
 const error = document.querySelector("#fv-no-params-message");
 
 if(step && step !== 'null' && step !== '') {
   localStorage.setItem('step', step);
+}
+
+if(requireVideo && requireVideo !== 'null' && requireVideo !== '') {
+  localStorage.setItem('require_video', requireVideo);
 }
 
 if (signatureCode && documentUuid) {

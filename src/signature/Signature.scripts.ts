@@ -1,5 +1,5 @@
-import { Config } from "../../Config";
 import "pdfjs-dist";
+import { downloadDocument, signDocument } from "../services";
 
 const loader: HTMLDivElement = document.getElementById(
   "fv-loader-curtain",
@@ -29,7 +29,6 @@ const signatureAgreement = document.getElementById(
   "fv-signature-agreement",
 ) as HTMLInputElement;
 
-const flashToken = localStorage.getItem("flashUserToken");
 const contractData: string = localStorage.getItem("contractData") as string;
 const parsedContractData = JSON.parse(contractData);
 
@@ -39,17 +38,10 @@ const displayPDF = async () => {
   loader.style.visibility = "visible";
 
   try {
-    const result = await fetch(
-      `${Config.fvBaseURL}/files/download/${parsedContractData.documentUuid}.pdf`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${flashToken}`,
-        },
-      },
-    );
+    const fileName: string = `${parsedContractData.documentUuid}.pdf`;
+    const result = await downloadDocument(fileName);
 
-    const response = await result.json();
+    const response = await result?.json();
 
     const pdfData = atob(response.data.file);
     const pdfArray = new Uint8Array(pdfData.length);
@@ -97,22 +89,16 @@ confirmButton &&
     cancelButton.disabled = true;
 
     try {
-      const result = await fetch(
-        `${Config.fvBaseURL}/signatures/signDocument`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${flashToken}`,
-          },
-          body: JSON.stringify({
-            id: parsedContractData.signerId,
-            document_id: parsedContractData.documentId,
-          } as any)
-        },
-      );
+      const documentData = JSON.parse(localStorage.getItem('documentData')!);
+      const data = {
+        id: parseInt(parsedContractData.signerId),
+        document_id: parseInt(parsedContractData.documentId),
+        data: documentData
+      };
+      
+      const result = await signDocument(data);
 
-      if (result.ok) {
+      if (result?.ok) {
         cancelButton.disabled = false;
         loader.style.visibility = "hidden";
         window.location.href = "../success";
@@ -143,7 +129,9 @@ cancelButton &&
       localStorage.removeItem("contractData");
       localStorage.removeItem("flashUserToken");
       localStorage.removeItem("templateInfo");
+      localStorage.removeItem("documentData");
       localStorage.removeItem("step");
+      localStorage.removeItem("require_video");
       // localStorage.removeItem("curp");
       window.location.href = "/";
     });

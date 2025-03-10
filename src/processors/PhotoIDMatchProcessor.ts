@@ -237,7 +237,9 @@ export class PhotoIDMatchProcessor
     );
     // const scanResultBlob = responseJSON.scanResultBlob;
     if (responseJSON.data.documentData) {
+      
       var documentData = JSON.parse(responseJSON.data.documentData);
+      localStorage.setItem('documentData', JSON.stringify(documentData));
       localStorage.setItem('templateInfo', JSON.stringify(documentData.templateInfo));
       
       // TODO: Uncomment when need to do validation of INE with RENAPO
