@@ -1,3 +1,7 @@
+if (localStorage.getItem('require_video')) {
+  localStorage.removeItem('require_video');
+}
+
 const params = new URLSearchParams(window.location.search);
 const signatureCode = params.get("signature_code");
 const documentUuid = params.get("document_uuid");
