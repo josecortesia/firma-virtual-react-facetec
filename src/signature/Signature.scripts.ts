@@ -99,6 +99,14 @@ confirmButton &&
       const result = await signDocument(data);
 
       if (result?.ok) {
+        localStorage.removeItem("biometrics");
+        localStorage.removeItem("contractData");
+        localStorage.removeItem("flashUserToken");
+        localStorage.removeItem("templateInfo");
+        localStorage.removeItem("documentData");
+        localStorage.removeItem("step");
+        localStorage.removeItem("require_video");
+
         cancelButton.disabled = false;
         loader.style.visibility = "hidden";
         window.location.href = "../success";
