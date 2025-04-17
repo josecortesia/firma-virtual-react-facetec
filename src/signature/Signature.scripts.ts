@@ -93,7 +93,7 @@ confirmButton &&
       const data = {
         id: parseInt(parsedContractData.signerId),
         document_id: parseInt(parsedContractData.documentId),
-        data: JSON.parse(documentData)
+        data: documentData
       };
       
       const result = await signDocument(data);
