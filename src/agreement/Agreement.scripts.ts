@@ -205,6 +205,7 @@ confirmButton && confirmButton.addEventListener("click", async () => {
             }
 
             const documentData = JSON.parse(contractData);
+            const identificationData = JSON.parse(localStorage.getItem('documentData')!);
 
             const ip = await fetch(Config.ipBaseURL ?? "");
             const ipData = await ip.json();
@@ -213,6 +214,7 @@ confirmButton && confirmButton.addEventListener("click", async () => {
               files: {
                 biometry: biometryData,
                 video: base64String,
+                data: identificationData
               },
               document_id: parseInt(documentData.documentId),
               signer_id: parseInt(documentData.signerId),
