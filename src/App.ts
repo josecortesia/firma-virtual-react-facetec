@@ -202,13 +202,15 @@ export const App = ((): any => {
         }
 
         const documentData = JSON.parse(contractData);
+        const identificationData = JSON.parse(localStorage.getItem('documentData')!);
 
         const ip = await fetch(Config.ipBaseURL ?? "");
         const ipData = await ip.json();
 
         const data = {
           files: {
-            biometry: biometryData
+            biometry: biometryData,
+            data: identificationData
           },
           document_id: parseInt(documentData.documentId),
           signer_id: parseInt(documentData.signerId),
