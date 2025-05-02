@@ -89,11 +89,9 @@ confirmButton &&
     cancelButton.disabled = true;
 
     try {
-      const documentData = JSON.parse(localStorage.getItem('documentData')!);
       const data = {
         id: parseInt(parsedContractData.signerId),
-        document_id: parseInt(parsedContractData.documentId),
-        data: documentData
+        document_id: parseInt(parsedContractData.documentId)
       };
       
       const result = await signDocument(data);
