@@ -18,6 +18,13 @@
   <script type="text/javascript" src="../sample-app-resources/js/very-old-browser-check.js"></script>
   <script type="text/javascript" src="../dist/App.js"></script>
   <script src="https://js.sentry-cdn.com/a2bc3a95dd48ee0c943117baf81bf779.min.js" crossorigin="anonymous"></script>
+  <script>
+      Sentry.onLoad(function() {
+        Sentry.init({
+            // You can add any additional configuration here
+          });
+      });
+  </script>
 </head>
 
 <body
@@ -255,13 +262,6 @@
       </span> -->
     <div class="footer-bottom"></div>
   </footer>
-  <script>
-      Sentry.onLoad(function() {
-        Sentry.init({
-            // You can add any additional configuration here
-          });
-      });
-    </script>
 </body>
 
 </html>
