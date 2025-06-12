@@ -14,3 +14,4 @@ export declare enum FaceTecLoggingMode {
 export declare var FaceTecLogging: {
     setFaceTecLoggingMode: (enumValue: FaceTecLoggingMode) => void;
 };
+//# sourceMappingURL=FaceTecLogging.d.ts.map

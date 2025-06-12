@@ -26,3 +26,4 @@ export declare class FaceTecSessionFromIFrame {
      */
     constructor(idScanProcessor: FaceTecIDScanProcessor, sessionToken: string);
 }
+//# sourceMappingURL=FaceTecSession.d.ts.map

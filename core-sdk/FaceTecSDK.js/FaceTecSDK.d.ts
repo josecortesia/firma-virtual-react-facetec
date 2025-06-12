@@ -1,4 +1,4 @@
-import { FaceTecCustomization, FaceTecOvalCustomization, FaceTecCancelButtonCustomization, FaceTecFeedbackBarCustomization, FaceTecFrameCustomization, FaceTecExitAnimationCustomization, FaceTecSessionTimerCustomization, FaceTecExitAnimationStyle, FaceTecCancelButtonLocation, FaceTecOverlayCustomization, FaceTecGuidanceCustomization, FaceTecResultScreenCustomization, FaceTecEnterFullScreenCustomization, FaceTecSecurityWatermarkImage, FaceTecSecurityWatermarkCustomization } from "./FaceTecCustomization";
+import { FaceTecCustomization, FaceTecOvalCustomization, FaceTecCancelButtonCustomization, FaceTecFeedbackBarCustomization, FaceTecFrameCustomization, FaceTecExitAnimationCustomization, FaceTecExitAnimationStyle, FaceTecCancelButtonLocation, FaceTecOverlayCustomization, FaceTecGuidanceCustomization, FaceTecResultScreenCustomization, FaceTecEnterFullScreenCustomization, FaceTecSecurityWatermarkImage, FaceTecSecurityWatermarkCustomization } from "./FaceTecCustomization";
 import { FaceTecLoggingMode } from "./FaceTecLogging";
 import { FaceTecSession, FaceTecSessionFromIFrame } from "./FaceTecSession";
 import { FaceTecAuditTrailType, FaceTecSDKStatus, FaceTecSessionStatus, FaceTecIDScanStatus, FaceTecFaceScanProcessor, FaceTecIDScanProcessor, FaceTecIDScanNextStep, FaceTecFaceScanResultCallback, FaceTecIDScanResultCallback, FaceTecRetryScreen, InitializeCallback, FaceTecAuditTrailImagesToReturn } from "./FaceTecPublicApi";
@@ -6,11 +6,11 @@ export declare var FaceTecSDK: {
     /**
     * Initialize FaceTecSDK in development mode using a Device Identifier Key - HTTPS Log mode.
     **/
-    initializeInDevelopmentMode: (deviceKeyIdentifier: string, publicEncryptionKey: string, onInitializationComplete: InitializeCallback) => void;
+    initializeInDevelopmentMode: (deviceKeyIdentifier: string, publicEncryptionKey: string, developerOnInitializationComplete: InitializeCallback) => void;
     /**
       * Initialize FaceTecSDK in production mode using a Production Key - SFTP Log mode.
     **/
-    initializeInProductionMode: (productionKey: string, deviceKeyIdentifier: string, publicEncryptionKey: string, onInitializationComplete: InitializeCallback) => void;
+    initializeInProductionMode: (productionKey: string, deviceKeyIdentifier: string, publicEncryptionKey: string, developerOnInitializationComplete: InitializeCallback) => void;
     /**
       * Ensure that the FaceTecSDK is initialized and ready before attempting to start a Session.
     **/
@@ -22,6 +22,9 @@ export declare var FaceTecSDK: {
     /**
     * Return friendly names for the enums in FaceTecSDKStatus.
     **/
+    /**
+       * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
+    */
     getFriendlyDescriptionForFaceTecSDKStatus: (enumValue: FaceTecSDKStatus) => string;
     /**
       * Core function calls that create and launch the FaceTec SDK Interface.
@@ -54,6 +57,9 @@ export declare var FaceTecSDK: {
     /**
       * Return Friendly names for the enums FaceTecIDScanStatus.
     **/
+    /**
+        * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
+     */
     getFriendlyDescriptionForFaceTecIDScanStatus: (enumValue: FaceTecIDScanStatus) => string;
     /**
       * FaceTec SDK ID Scan process behavior on starting.
@@ -73,6 +79,9 @@ export declare var FaceTecSDK: {
     /**
      * Return friendly names for the enums in FaceTecSessionStatus.
     **/
+    /**
+        * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
+     */
     getFriendlyDescriptionForFaceTecSessionStatus: (enumValue: FaceTecSessionStatus) => string;
     /**
     * Return the FaceTecSDK customization object.
@@ -98,10 +107,6 @@ export declare var FaceTecSDK: {
       * Return the FaceTecSDK frame customization object.
     **/
     FaceTecFrameCustomization: typeof FaceTecFrameCustomization;
-    /**
-      * Return the FaceTecSDK session timer customization object.
-    **/
-    FaceTecSessionTimerCustomization: typeof FaceTecSessionTimerCustomization;
     /**
       * Return the FaceTecSDK Interface customization object.
     **/
@@ -166,19 +171,15 @@ export declare var FaceTecSDK: {
      */
     FaceTecRetryScreen: typeof FaceTecRetryScreen;
     /**
-     * To be deprecated in a future release - replaced by configureLocalization.
-    */
-    configureLocalizationWithJSON: (localizationJSON: {
-        [key: string]: string;
-    }) => void;
-    /**
      * API to set FaceTec Localization Strings with the strings passed in as arguments.
+     * IMPORTANT: The FaceTec SDK must be successfully initialized before calling this API.
     */
     configureLocalization: (localizationJSON: {
         [key: string]: string;
     }) => void;
     /**
      * Configure the custom localized strings to be used for groups, fields, and placeholder text on ID Scan's User OCR Confirmation Screen.
+     * IMPORTANT: The FaceTec SDK must be successfully initialized before calling this API.
      * @param ocrLocalizationJSON Optional object created from a JSON that follows our template file of configurable groups, fields, and placeholder texts: "FaceTec_OCR_Customization.json".  By default, this is null and the strings used will be our internal defaults.
     */
     configureOCRLocalization: (ocrLocalizationJSON: {
@@ -190,6 +191,7 @@ export declare var FaceTecSDK: {
     auditTrailType: FaceTecAuditTrailType;
     /**
       * Set the maximum number of FaceTecSDK audit trail images to return. Valid values are ONE or UP_TO_SIX, default is ONE.
+      * IMPORTANT: The FaceTec SDK must be successfully initialized before calling this API.
     **/
     setMaxAuditTrailImages: (auditTrailImagesToReturn: FaceTecAuditTrailImagesToReturn) => void;
     /**
@@ -231,3 +233,4 @@ export declare var FaceTecSDK: {
     **/
     createFaceTecAPIUserAgentString: (sessionID: string) => string;
 };
+//# sourceMappingURL=FaceTecSDK.d.ts.map
