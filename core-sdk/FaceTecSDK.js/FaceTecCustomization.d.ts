@@ -12,14 +12,14 @@ export declare enum FaceTecCancelButtonLocation {
 }
 export declare enum FaceTecSecurityWatermarkImage {
     FaceTec_ZoOm = 0,
-    FaceTec = 1
+    FaceTec = 1,
+    FaceTec_Powered_By = 2
 }
 export declare class FaceTecRect {
     x: number;
     y: number;
     width: number;
     height: number;
-    constructor();
     create(x: number, y: number, width: number, height: number): FaceTecRect;
 }
 export interface FaceTecFeedbackBarCustomization {
@@ -55,10 +55,6 @@ export interface FaceTecExitAnimationCustomization {
     exitAnimationSuccess: FaceTecExitAnimationStyle;
     exitAnimationUnsuccess: FaceTecExitAnimationStyle;
 }
-export interface FaceTecSessionTimerCustomization {
-    livenessCheckNoInteractionTimeout: number;
-    idScanNoInteractionTimeout: number;
-}
 export interface FaceTecGuidanceCustomization {
     buttonFont: string;
     buttonBorderWidth: string;
@@ -74,16 +70,12 @@ export interface FaceTecGuidanceCustomization {
     subtextFont: string;
     readyScreenHeaderFont: string;
     readyScreenHeaderTextColor: string;
-    readyScreenHeaderAttributedString: string;
     readyScreenSubtextFont: string;
     readyScreenSubtextTextColor: string;
-    readyScreenSubtextAttributedString: string;
     retryScreenHeaderFont: string;
     retryScreenHeaderTextColor: string;
-    retryScreenHeaderAttributedString: string;
     retryScreenSubtextFont: string;
     retryScreenSubtextTextColor: string;
-    retryScreenSubtextAttributedString: string;
     backgroundColors: string;
     foregroundColor: string;
     readyScreenOvalFillColor: string;
@@ -142,6 +134,7 @@ export interface FaceTecResultScreenCustomization {
     showUploadProgressBar: boolean;
     uploadProgressFillColor: string;
     uploadProgressTrackColor: string;
+    resultAnimationDisplayTime: number;
 }
 export interface FaceTecOvalCustomization {
     /**
@@ -167,12 +160,6 @@ export interface FaceTecOvalCustomization {
     strokeWidth: number;
 }
 export interface FaceTecIDScanCustomization {
-    /**
-    * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-    * Controls whether to show the 'FaceTec_branding_logo_id_check' image (or image configured with .selectionScreenBrandingImage) on the Identity Document Type Selection Screen.
-    * Default is false (hidden).
-    */
-    showSelectionScreenBrandingImage: boolean;
     /**
      * Controls whether to show the 'FaceTec_document' image (or image configured with .selectionScreenDocumentImage) on the Identity Document Type Selection Screen.
      * Default is true (visible).
@@ -248,12 +235,6 @@ export interface FaceTecIDScanCustomization {
      * Default is white.
      */
     selectionScreenBackgroundColors: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     * Image displayed along the top of the Identity Document Type Selection Screen.
-     * Default is configured to use image named 'FaceTec_branding_logo_id_check' located in '/FaceTec_images/' directory (or custom configured default directory for FaceTec Browser SDK images).
-     */
-    selectionScreenBrandingImage: string;
     /**
      * Image displayed in the middle of the Identity Document Type Selection Screen.
      * Default is configured to use image named 'FaceTec_document' located in '/FaceTec_images/' directory (or custom configured default directory for FaceTec Browser SDK images).
@@ -340,30 +321,6 @@ export interface FaceTecIDScanCustomization {
      */
     reviewScreenBackgroundColors: string;
     /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenIDFrontPlaceHolderImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenIDBackPlaceHolderImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenPassportPlaceholderImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenIDFrontCheckmarkImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenIDBackCheckmarkImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenPassportCheckmarkImage: string;
-    /**
      * Color of the Additional Review Screen background.
      * Default is white.
      */
@@ -381,12 +338,41 @@ export interface FaceTecIDScanCustomization {
     /**
      * Configure an SVG element to display on the ID Scan Additional Review Screen.
      * Note: All CSS required for the SVG animation needs to be included in your app's CSS file before launching FaceTec Browser SDK.
-     * Note: The result animation is displayed for 2 seconds, so custom animation timing should be configured accordingly.
+     * Note: By default, the result animation is displayed for 2 seconds, but can be configured within a range using the FaceTecIDScanCustomization.additionalReviewScreenAnimationDisplayTime API.  Custom animation timing should be configured accordingly.
      * If this is set to an SVGElement object, the SVG supplied will be used instead of the image configured with additionalReviewScreenImage.
      * If this is null, the image configured for additionalReviewScreenImage will be displayed instead.
      * Default is null.
      */
     additionalReviewScreenAnimation: SVGElement | null;
+    /**
+     * Color of the ID Scan Feedback Screen background.
+     * Default is white.
+     */
+    idFeedbackScreenBackgroundColors: string;
+    /**
+     * Color of the text displayed on the ID Scan Feedback Screen (not including the action button text).
+     * Default is custom color.
+     */
+    idFeedbackScreenForegroundColor: string;
+    /**
+     * Image displayed on the ID Scan Feedback Screen.
+     * Default is configured to use image named 'FaceTec_id_card_front' located in '/FaceTec_images/' directory (or custom configured default directory for FaceTec Browser SDK images).
+     */
+    idFeedbackScreenFlipIDFrontImage: string;
+    /**
+     * Image displayed on the ID Scan Feedback Screen.
+     * Default is configured to use image named 'FaceTec_id_card_back' located in '/FaceTec_images/' directory (or custom configured default directory for FaceTec Browser SDK images).
+     */
+    idFeedbackScreenFlipIDBackImage: string;
+    /**
+     * Configure an SVG element to display on the ID Scan Feedback Screen.
+     * Note: All CSS required for the SVG animation needs to be included in your app's CSS file before launching FaceTec Browser SDK.
+     * Note: By default, the result animation is displayed for 2 seconds, but can be configured within a range using the FaceTecIDScanCustomization.idFeedbackScreenAnimationDisplayTime API.  Custom animation timing should be configured accordingly.
+     * If this is set to an SVGElement object, the SVG supplied will be used instead of the images configured with idFeedbackScreenFlipIDFrontImage and idFeedbackScreenFlipIDBackImage.
+     * If this is null, the images configured with idFeedbackScreenFlipIDFrontImage and idFeedbackScreenFlipIDBackImage will be used for the default flip animation and displayed instead of a custom animation.
+     * Default is null.
+     */
+    idFeedbackScreenFlipIDToBackAnimation: SVGElement | null;
     /**
      * Controls whether to show the 'FaceTec_face_match_to_id_branding_logo' image (or image configured with .faceMatchToIDBrandingImage) on the ID Scan Capture and Review Screens for Photo ID Match Sessions.
      * Default is false (hidden).
@@ -407,6 +393,23 @@ export interface FaceTecIDScanCustomization {
      * Default is false (shown).
      */
     disableAdditionalReviewScreen: boolean;
+    /**
+     * Controls whether to show the ID Scan Feedback Screen at the end of an ID Scan Result Screen if there was a correctable issue with scanning the ID.
+     * Default is false (shown).
+     */
+    disableIDFeedbackScreen: boolean;
+    /**
+     * Controls the length of time to display the Additional Review Screen animation after being transitioned in and before being transitioned out.
+     * Value is in seconds. This value has to be between 1.5 and 3.0. If it’s lower than 1.5 or higher than 3.0, it will be defaulted to 1.5 or 3.0 respectively.
+     * Default is 2.
+     */
+    additionalReviewScreenAnimationDisplayTime: number;
+    /**
+     * Controls the length of time to display the ID Feedback Screen animation after being transitioned in and before being transitioned out.
+     * Value is in seconds. This value has to be between 1.5 and 3.0. If it’s lower than 1.5 or higher than 3.0, it will be defaulted to 1.5 or 3.0 respectively.
+     * Default is 2.
+     */
+    idFeedbackScreenAnimationDisplayTime: number;
 }
 export interface FaceTecOCRConfirmationCustomization {
     backgroundColors: string;
@@ -457,6 +460,44 @@ export interface FaceTecOCRConfirmationCustomization {
 export interface FaceTecSecurityWatermarkCustomization {
     securityWatermarkImage: FaceTecSecurityWatermarkImage;
 }
+export declare class FaceTecVocalGuidanceCustomization {
+    /**
+     * Set Vocal Guidance Mode<br>
+     * Default is MINIMAL_VOCAL_GUIDANCE.
+     */
+    mode: FaceTecVocalGuidanceMode;
+    /**
+     * The sound file for "Please Frame Your Face In The Oval".<br>
+     * Default -1 uses a FaceTec internal sound file.
+     */
+    pleaseFrameYourFaceInTheOvalSoundFile: string;
+    /**
+     * The sound file for "Please Move Closer".<br>
+     * Default -1 uses a FaceTec internal sound file.
+     */
+    pleaseMoveCloserSoundFile: string;
+    /**
+     * The sound file for "Please Retry".<br>
+     * Default -1 uses a FaceTec internal sound file.
+     */
+    pleaseRetrySoundFile: string;
+    /**
+     * The sound file for "Uploading".<br>
+     * Default -1 uses a FaceTec internal sound file.
+     */
+    uploadingSoundFile: string;
+    /**
+     * The sound file for "FaceScan Successful".<br>
+     * Default -1 uses a FaceTec internal sound file.
+     */
+    facescanSuccessfulSoundFile: string;
+    /**
+     * The sound file for "Please Press The Button To Start".<br>
+     * Default -1 uses a FaceTec internal sound file.
+     */
+    pleasePressTheButtonToStartSoundFile: string;
+    constructor();
+}
 /**
  * Class used to customize the look and feel of the FaceTec Browser SDK Interface.
  * FaceTec Browser SDK ships with a default FaceTec Browser SDK theme but has a variety of variables that you can use to configure the FaceTec Browser SDK to your application's needs.
@@ -473,8 +514,6 @@ export declare class FaceTecCustomization {
     exitAnimationCustomization: FaceTecExitAnimationCustomization;
     /** Customize the FaceTec Browser SDK Cancel Button. */
     cancelButtonCustomization: FaceTecCancelButtonCustomization;
-    /** @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK. */
-    sessionTimerCustomization: FaceTecSessionTimerCustomization;
     /** Customize the loading spinner and the text shown to the user while the camera loads. */
     initialLoadingAnimationCustomization: FaceTecInitialLoadingAnimationCustomization;
     /** Customize the New User Guidance and Retry Screens. */
@@ -493,11 +532,13 @@ export declare class FaceTecCustomization {
      * Please contact FaceTec to request access.
      */
     enterFullScreenCustomization: FaceTecEnterFullScreenCustomization;
-    /** Customize the FaceTec Security Watermark Image by selecting from 1 of the 3 available FaceTec watermarks. */
+    /** Customize the FaceTec Security Watermark Image by selecting from 1 of the 2 available FaceTec watermarks. */
     securityWatermarkCustomization: FaceTecSecurityWatermarkCustomization;
     /** Customize the FaceTec Vocal Guidance audio files. */
     vocalGuidanceCustomization: FaceTecVocalGuidanceCustomization;
-    /** Allow FaceTec Browser SDK to cancel due to context switch when unauthorized key strokes are detected while the FaceTec Browser SDK is active. For accessibility, essential navigation hotkeys will not trigger cancellation. */
+    /**
+   * DEPRECATED - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
+   */
     enableHotKeyProtection: boolean;
     /** Show Camera Permissions Denied Screen. */
     enableCameraPermissionsHelpScreen: boolean;
@@ -532,7 +573,7 @@ export declare class FaceTecCustomization {
      * This function allows special runtime control of the various possible result messages shown when the result animation occurs for an ID Scan Session.<br>
      * Please note that you can also customize these strings via the standard customization/localization methods provided.<br>
      */
-    static setIDScanResultScreenMessageOverrides: (successFrontSide: string, successFrontSideBackNext: string, successBackSide: string, successPassport: string, successUserConfirmation: string, retryFaceDidNotMatch: string, retryIDNotFullyVisible: string, retryOCRResultsNotGoodEnough?: string, retryIDTypeNotSupported?: string) => void;
+    static setIDScanResultScreenMessageOverrides: (successFrontSide: string, successFrontSideBackNext: string, successBackSide: string, successPassport: string, successUserConfirmation: string, successAdditionalReview: string, retryFaceDidNotMatch: string, retryIDNotFullyVisible?: string, retryOCRResultsNotGoodEnough?: string, retryIDTypeNotSupported?: string) => void;
     /**
      * This function allows special runtime control of the various possible upload messages shown when the Result Screen's upload progress content is shown for an ID Scan Session.
      * If this method is used, any values configured with FaceTecIDScanResultCallback.uploadMessageOverride will be overridden with the applicable value configured with this method.
@@ -549,26 +590,7 @@ export declare class FaceTecCustomization {
     }[] | any[]);
     [key: string]: {
         key: string;
-    }[] | boolean | FaceTecVocalGuidanceCustomization | FaceTecSecurityWatermarkCustomization | FaceTecEnterFullScreenCustomization | FaceTecOCRConfirmationCustomization | FaceTecIDScanCustomization | FaceTecOvalCustomization | FaceTecFeedbackBarCustomization | FaceTecFrameCustomization | FaceTecExitAnimationCustomization | FaceTecCancelButtonCustomization | FaceTecSessionTimerCustomization | FaceTecInitialLoadingAnimationCustomization | FaceTecGuidanceCustomization | FaceTecOverlayCustomization | FaceTecResultScreenCustomization | string;
-}
-/**
- * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
- */
-export declare class FaceTecSessionTimerCustomization {
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    maxTimeBeforeCameraPermissionsError: number;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    livenessCheckNoInteractionTimeout: number;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    idScanNoInteractionTimeout: number;
-    /** Constructor for FaceTecSessionTimerCustomization object. */
-    constructor();
+    }[] | boolean | FaceTecVocalGuidanceCustomization | FaceTecSecurityWatermarkCustomization | FaceTecEnterFullScreenCustomization | FaceTecOCRConfirmationCustomization | FaceTecIDScanCustomization | FaceTecOvalCustomization | FaceTecFeedbackBarCustomization | FaceTecFrameCustomization | FaceTecExitAnimationCustomization | FaceTecCancelButtonCustomization | FaceTecInitialLoadingAnimationCustomization | FaceTecGuidanceCustomization | FaceTecOverlayCustomization | FaceTecResultScreenCustomization | string;
 }
 /**
  * Customize the FaceTec Session Frame exit animation.
@@ -840,12 +862,6 @@ export declare class FaceTecGuidanceCustomization {
      */
     readyScreenHeaderTextColor: string;
     /**
-     * Specify an html-attributed string to use instead of the localized string for the text of the title displayed on the Get Ready To FaceTec Browser SDK Screen during the New User Guidance and Retry Screens.
-     * If this value is an empty string, the localized string, FaceTec_instructions_header_ready, will be used for the text of the title displayed on the Get Ready To FaceTec Browser SDK Screen during the New User Guidance and Retry Screens.
-     * Default is an empty string.
-     */
-    readyScreenHeaderAttributedString: string;
-    /**
      * Font of the title's subtext displayed on the Get Ready for Video Selfie Screen during the New User Guidance and Retry Screens.
      * Note: This will override the title's subtext font configured with FaceTecGuidanceCustomization.subtextFont for the Get Ready for Video Selfie Screen.
      * Accepts any value assignable to the fontFamily CSS attribute.
@@ -860,12 +876,6 @@ export declare class FaceTecGuidanceCustomization {
      * Default value is an empty string.
      */
     readyScreenSubtextTextColor: string;
-    /**
-     * Specify an html-attributed string to use instead of the localized string for the text of the title's subtext displayed on the Get Ready for Video Selfie Screen during the New User Guidance and Retry Screens.
-     * If this value is an empty string, the localized string, FaceTec_instructions_message_ready, will be used for the text of the title's subtext displayed on the Get Ready for Video Selfie Screen during the New User Guidance and Retry Screens.
-     * Default is an empty string.
-     */
-    readyScreenSubtextAttributedString: string;
     /**
      * Font of the title's text displayed on the first Retry Screen.
      * Note: This will override the header font configured with FaceTecGuidanceCustomization.headerFont for the first Retry Screen.
@@ -882,12 +892,6 @@ export declare class FaceTecGuidanceCustomization {
      */
     retryScreenHeaderTextColor: string;
     /**
-     * Specify an html-attributed string to use instead of the localized string for the text of the title displayed on the first Retry Screen.
-     * If this value is an empty string, the localized string, FaceTec_retry_header, will be used for the text of the title displayed on the first Retry Screen.
-     * Default is an empty string.
-     */
-    retryScreenHeaderAttributedString: string;
-    /**
      * Font of the title's subtext and messages displayed on the first Retry Screen.
      * Note: This will override the font of the title's subtext and messages configured with FaceTecGuidanceCustomization.subtextFont for the first Retry Screen.
      * Accepts any value assignable to the fontFamily CSS attribute.
@@ -902,12 +906,6 @@ export declare class FaceTecGuidanceCustomization {
      * Default value is an empty string.
      */
     retryScreenSubtextTextColor: string;
-    /**
-     * Specify an html-attributed string to use instead of the localized string for the text of the title's subtext displayed on the first Retry Screen.
-     * If this value is an empty string, the localized strings, FaceTec_retry_subheader_message, will be used for the text of the title's subtext displayed on the first Retry Screen.
-     * Default is an empty string.
-     */
-    retryScreenSubtextAttributedString: string;
     /**
      * Font of the action button's text during the New User Guidance and Retry Screens.
      * Accepts any value assignable to the fontFamily CSS attribute.
@@ -1171,7 +1169,7 @@ export declare class FaceTecResultScreenCustomization {
     /**
      * Configure an SVG element to display on the Result Screen for success scenarios.
      * Note: All CSS required for the SVG animation needs to be included in your app's CSS file before launching FaceTec Browser SDK.
-     * Note: The result animation is displayed for 2 seconds, so custom animation timing should be configured accordingly.
+     * Note: By default, the result animation is displayed for 2 seconds, but can be configured within a range using the FaceTecResultScreenCustomization.resultAnimationDisplayTime API.  Custom animation timing should be configured accordingly.
      * If this is set to an SVGElement object, the SVG supplied will be used instead of the default success animation or any success image configured with FaceTecResultScreenCustomization.resultAnimationSuccessBackgroundImage.
      * If this is null, the default success animation will be used.
      * Default is null.
@@ -1180,7 +1178,7 @@ export declare class FaceTecResultScreenCustomization {
     /**
      * Configure an SVG element to display on the Result Screen for unsuccess scenarios. Unsuccess result animations are only shown for unsuccessful Photo ID Match attempts.
      * Note: All CSS required for the SVG animation needs to be included in your app's CSS file before launching FaceTec Browser SDK.
-     * Note: The result animation is displayed for 2 seconds, so custom animation timing should be configured accordingly.
+     * Note: By default, the result animation is displayed for 2 seconds, but can be configured within a range using the FaceTecResultScreenCustomization.resultAnimationDisplayTime API.  Custom animation timing should be configured accordingly.
      * If this is set to an SVGElement object, the SVG supplied will be used instead of the default unsuccess animation or any unsuccess image configured with FaceTecResultScreenCustomization.resultAnimationUnsuccessBackgroundImage.
      * If this is null, the default unsuccess animation will be used.
      * Default is null.
@@ -1240,6 +1238,12 @@ export declare class FaceTecResultScreenCustomization {
      * Default is a semi-opaque shade of black.
      */
     uploadProgressTrackColor: string;
+    /**
+     * Controls the length of time to display the Result Screen result animation after being transitioned in and before being transitioned out.
+     * Value is in seconds. This value has to be between 1.5 and 3.0. If it’s lower than 1.5 or higher than 3.0, it will be defaulted to 1.5 or 3.0 respectively.
+     * Default is 2.
+     */
+    resultAnimationDisplayTime: number;
     /** Constructor for FaceTecResultScreenCustomization object. */
     constructor();
 }
@@ -1256,15 +1260,9 @@ export declare class FaceTecResultScreenCustomization {
 export declare class FaceTecIDScanCustomization {
     private defaultLocationForImages;
     /**
-    * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-    * Controls whether to show the 'FaceTec_branding_logo_id_check' image (or image configured with .selectionScreenBrandingImage) on the Identity Document Type Selection Screen.
-    * Default is false (hidden).
+    * Controls whether to show the 'FaceTec_document' image (or image configured with .selectionScreenDocumentImage) on the Identity Document Type Selection Screen.
+    * Default is true (visible).
     */
-    showSelectionScreenBrandingImage: boolean;
-    /**
-     * Controls whether to show the 'FaceTec_document' image (or image configured with .selectionScreenDocumentImage) on the Identity Document Type Selection Screen.
-     * Default is true (visible).
-     */
     showSelectionScreenDocumentImage: boolean;
     /**
      * Color of the text displayed on the Identity Document Type Selection Screen (not including the action button text).
@@ -1336,12 +1334,6 @@ export declare class FaceTecIDScanCustomization {
      * Default is white.
      */
     selectionScreenBackgroundColors: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     * Image displayed along the top of the Identity Document Type Selection Screen.
-     * Default is configured to use image named 'FaceTec_branding_logo_id_check' located in '/FaceTec_images/' directory (or custom configured default directory for FaceTec Browser SDK images).
-     */
-    selectionScreenBrandingImage: string;
     /**
      * Image displayed in the middle of the Identity Document Type Selection Screen.
      * Default is configured to use image named 'FaceTec_document' located in '/FaceTec_images/' directory (or custom configured default directory for FaceTec Browser SDK images).
@@ -1428,30 +1420,6 @@ export declare class FaceTecIDScanCustomization {
      */
     reviewScreenBackgroundColors: string;
     /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenIDFrontPlaceHolderImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenIDBackPlaceHolderImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenPassportPlaceholderImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenIDFrontCheckmarkImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenIDBackCheckmarkImage: string;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    captureScreenPassportCheckmarkImage: string;
-    /**
      * Color of the Additional Review Screen background.
      * Default is white.
      */
@@ -1469,12 +1437,43 @@ export declare class FaceTecIDScanCustomization {
     /**
      * Configure an SVG element to display on the ID Scan Additional Review Screen.
      * Note: All CSS required for the SVG animation needs to be included in your app's CSS file before launching FaceTec Browser SDK.
-     * Note: The result animation is displayed for 2 seconds, so custom animation timing should be configured accordingly.
+     * Note: By default, the result animation is displayed for 2 seconds, but can be configured within a range using the FaceTecIDScanCustomization.additionalReviewScreenAnimationDisplayTime API.  Custom animation timing should be configured accordingly.
      * If this is set to an SVGElement object, the SVG supplied will be used instead of the image configured with additionalReviewScreenImage.
      * If this is null, the image configured for additionalReviewScreenImage will be displayed instead.
      * Default is null.
      */
     additionalReviewScreenAnimation: SVGElement | null;
+    /**
+     * Color of the ID Scan Feedback Screen background.
+     * Default is white.
+     */
+    idFeedbackScreenBackgroundColors: string;
+    /**
+     * Color of the text displayed on the ID Scan Feedback Screen (not including the action button text).
+     * Default is custom color.
+     */
+    idFeedbackScreenForegroundColor: string;
+    /**
+     * Image displayed on the ID Scan Feedback Screen for the front-side of the ID in the default animation when feedback is to flip the ID to the back-side.
+     * The images configured with idFeedbackScreenFlipIDFrontImage and idFeedbackScreenFlipIDBackImage will be used for the default flip animation and displayed instead of a custom animation configured with idFeedbackScreenFlipIDToBackAnimation.
+     * Default is configured to use image named 'FaceTec_id_card_front' located in '/FaceTec_images/' directory (or custom configured default directory for FaceTec Browser SDK images).
+     */
+    idFeedbackScreenFlipIDFrontImage: string;
+    /**
+     * Image displayed on the ID Scan Feedback Screen for the back-side of the ID in the default animation when feedback is to flip the ID to the back-side.
+     * The images configured with idFeedbackScreenFlipIDFrontImage and idFeedbackScreenFlipIDBackImage will be used for the default flip animation and displayed instead of a custom animation configured with idFeedbackScreenFlipIDToBackAnimation.
+     * Default is configured to use image named 'FaceTec_id_card_back' located in '/FaceTec_images/' directory (or custom configured default directory for FaceTec Browser SDK images).
+     */
+    idFeedbackScreenFlipIDBackImage: string;
+    /**
+     * Configure an SVG element to display on the ID Scan Feedback Screen.
+     * Note: All CSS required for the SVG animation needs to be included in your app's CSS file before launching FaceTec Browser SDK.
+     * Note: By default, the result animation is displayed for 2 seconds, but can be configured within a range using the FaceTecIDScanCustomization.idFeedbackScreenAnimationDisplayTime API.  Custom animation timing should be configured accordingly.
+     * If this is set to an SVGElement object, the SVG supplied will be used instead of the images configured with idFeedbackScreenFlipIDFrontImage and idFeedbackScreenFlipIDBackImage.
+     * If this is null, the images configured with idFeedbackScreenFlipIDFrontImage and idFeedbackScreenFlipIDBackImage will be used for the default flip animation and displayed instead of a custom animation.
+     * Default is null.
+     */
+    idFeedbackScreenFlipIDToBackAnimation: SVGElement | null;
     /**
      * Controls whether to show the 'FaceTec_face_match_to_id_branding_logo' image (or image configured with .faceMatchToIDBrandingImage) on the ID Scan Capture and Review Screens for Photo ID Match Sessions.
      * Default is false (hidden).
@@ -1495,9 +1494,26 @@ export declare class FaceTecIDScanCustomization {
      * Default is false (shown).
      */
     disableAdditionalReviewScreen: boolean;
+    /**
+     * Controls whether to show the ID Scan Feedback Screen at the end of an ID Scan Result Screen if there was a correctable issue with scanning the ID.
+     * Default is false (shown).
+     */
+    disableIDFeedbackScreen: boolean;
+    /**
+     * Controls the length of time to display the Additional Review Screen animation after being transitioned in and before being transitioned out.
+     * Value is in seconds. This value has to be between 1.5 and 3.0. If it’s lower than 1.5 or higher than 3.0, it will be defaulted to 1.5 or 3.0 respectively.
+     * Default is 2.
+     */
+    additionalReviewScreenAnimationDisplayTime: number;
+    /**
+     * Controls the length of time to display the ID Feedback Screen animation after being transitioned in and before being transitioned out.
+     * Value is in seconds. This value has to be between 1.5 and 3.0. If it’s lower than 1.5 or higher than 3.0, it will be defaulted to 1.5 or 3.0 respectively.
+     * Default is 2.
+     */
+    idFeedbackScreenAnimationDisplayTime: number;
     /** Constructor for FaceTecIDScanCustomization object. */
     constructor();
-    [key: string]: string | boolean | SVGElement | null;
+    [key: string]: string | number | boolean | SVGElement | null;
 }
 export declare class FaceTecOCRConfirmationCustomization {
     /**
@@ -1743,44 +1759,6 @@ export declare class FaceTecSecurityWatermarkCustomization {
     setSecurityWatermarkImage(selectedSecurityWatermarkImage: FaceTecSecurityWatermarkImage): void;
     [key: string]: FaceTecSecurityWatermarkImage | ((selectedSecurityWatermarkImage: FaceTecSecurityWatermarkImage) => void);
 }
-export declare class FaceTecVocalGuidanceCustomization {
-    /**
-     * Set Vocal Guidance Mode<br>
-     * Default is MINIMAL_VOCAL_GUIDANCE.
-     */
-    mode: FaceTecVocalGuidanceMode;
-    /**
-     * The sound file for "Please Frame Your Face In The Oval".<br>
-     * Default -1 uses a FaceTec internal sound file.
-     */
-    pleaseFrameYourFaceInTheOvalSoundFile: string;
-    /**
-     * The sound file for "Please Move Closer".<br>
-     * Default -1 uses a FaceTec internal sound file.
-     */
-    pleaseMoveCloserSoundFile: string;
-    /**
-     * The sound file for "Please Retry".<br>
-     * Default -1 uses a FaceTec internal sound file.
-     */
-    pleaseRetrySoundFile: string;
-    /**
-     * The sound file for "Uploading".<br>
-     * Default -1 uses a FaceTec internal sound file.
-     */
-    uploadingSoundFile: string;
-    /**
-     * The sound file for "FaceScan Successful".<br>
-     * Default -1 uses a FaceTec internal sound file.
-     */
-    facescanSuccessfulSoundFile: string;
-    /**
-     * The sound file for "Please Press The Button To Start".<br>
-     * Default -1 uses a FaceTec internal sound file.
-     */
-    pleasePressTheButtonToStartSoundFile: string;
-    constructor();
-}
 export declare var FaceTecCustomizations: {
     idScanResultScreenMessageOverrides: {
         0?: string | null | undefined;
@@ -1830,7 +1808,6 @@ export declare var FaceTecCustomizations: {
     FaceTecExitAnimationCustomization: typeof FaceTecExitAnimationCustomization;
     FaceTecFeedbackBarCustomization: typeof FaceTecFeedbackBarCustomization;
     FaceTecFrameCustomization: typeof FaceTecFrameCustomization;
-    FaceTecSessionTimerCustomization: typeof FaceTecSessionTimerCustomization;
     FaceTecInitialLoadingAnimationCustomization: typeof FaceTecInitialLoadingAnimationCustomization;
     FaceTecGuidanceCustomization: typeof FaceTecGuidanceCustomization;
     FaceTecOverlayCustomization: typeof FaceTecOverlayCustomization;
@@ -1838,3 +1815,4 @@ export declare var FaceTecCustomizations: {
     FaceTecExitAnimationStyle: typeof FaceTecExitAnimationStyle;
     FaceTecCancelButtonLocation: typeof FaceTecCancelButtonLocation;
 };
+//# sourceMappingURL=FaceTecCustomization.d.ts.map

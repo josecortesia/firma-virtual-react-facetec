@@ -191,8 +191,8 @@ export declare class FaceTecFaceScanResultCallback {
      */
     succeed: (idScanNextStep?: FaceTecIDScanNextStep) => void;
     /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK. Use the proceedToNextStep method instead.
-     */
+   * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK. Use the proceedToNextStep method instead.
+   */
     retry: (retryScreen?: FaceTecRetryScreen) => void;
     cancel: () => void;
     uploadProgress: (uploadedPercent: number) => void;
@@ -242,10 +242,14 @@ export declare enum FaceTecIDScanStatus {
     */
     LandscapeModeNotAllowed = 8,
     /**
-    * ID Scan cancelled because of an unknown and unexpected error.  The FaceTec Browser SDK leverages a variety of platform APIs including camera, storage, security, networking, and more.
+    * ID Scan was cancelled because of an unknown and unexpected error.  The FaceTec Browser SDK leverages a variety of platform APIs including camera, storage, security, networking, and more.
     * This return value is a catch-all for errors experienced during normal usage of these APIs.
     */
-    UnknownInternalError = 9
+    UnknownInternalError = 9,
+    /**
+     * ID Scan was cancelled because the user was in a locked out state.
+     */
+    LockedOut = 10
 }
 /** ID Scan Result object */
 export interface FaceTecIDScanResult {
@@ -308,3 +312,4 @@ export declare enum FaceTecAuditTrailImagesToReturn {
     ONE = "1",
     UP_TO_SIX = "6"
 }
+//# sourceMappingURL=FaceTecPublicApi.d.ts.map
