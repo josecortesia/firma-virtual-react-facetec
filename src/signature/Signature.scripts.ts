@@ -138,6 +138,7 @@ cancelButton &&
       localStorage.removeItem("documentData");
       localStorage.removeItem("step");
       localStorage.removeItem("require_video");
+      localStorage.clear();
       // localStorage.removeItem("curp");
       window.location.href = "/";
     });

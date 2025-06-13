@@ -178,10 +178,11 @@ export const App = ((): any => {
         JSON.stringify({ latestIDScanResult, flashUserResult }),
       );
 
-      let requireVideo = localStorage.getItem('require_video');
-      if (requireVideo) {
-        window.location.href = "./agreement";
-      } else {
+      // let requireVideo = localStorage.getItem('require_video');
+      // if (requireVideo) {
+      //   window.location.href = "./agreement";
+      // } else 
+      try {
         const loader: HTMLDivElement = document.getElementById(
           "fv-loader-curtain",
         ) as HTMLDivElement;
@@ -192,8 +193,14 @@ export const App = ((): any => {
         const biometrics: string = localStorage.getItem("biometrics") as string;
         const parsedBiometrics = JSON.parse(biometrics);
 
+        if (!contractData || !parsedBiometrics) {
+          console.error("Missing contract data or biometrics data.");
+          if (modalError) modalError.style.visibility = "visible";
+          return;
+        }
+
         const biometryData = {
-          status: parsedBiometrics.latestIDScanResult.status,
+          status: parsedBiometrics.latestIDScanResult.status ?? false,
           session_id: parsedBiometrics.latestIDScanResult.sessionId,
           is_done: parsedBiometrics.latestIDScanResult.isCompletelyDone,
           scan_id: parsedBiometrics.latestIDScanResult.idScan,
@@ -228,6 +235,9 @@ export const App = ((): any => {
           loader.style.visibility = "hidden";
           if (modalError) modalError.style.visibility = "visible";
         }
+      }
+      catch (err) {
+        console.error(err);
       }
 
       // window.location.href = "./choose";
