@@ -8,7 +8,7 @@
   PUBLIC_ENCRYPTION_KEY="-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3irIdgBSVvXMWiVzWzSC5zMDye1VHfInpnQaQxChfydzGW3VVnUhTVCYFnGbJqmGBmHYBN+6ssbHXE5gKg5RlJSiRmqY+pb5EohJnWWsFOeZuMFK0QjiAQjVGQjktzcknm/KPCh95j6r7sSrwdp9KRDf1euT32USmhUwF55TJkw2yH1RYf+5uid9p1AShYQDHuDvwKXD04L5FslI26fnGxifxwR0pA0CGsjcdv/8u/rgpDZuFDgK1G7rn4gdVQTqnX4wzqk3FWL7MWqJh8aL6hdZCKYcL0PanLhY2mVfRerVx1bnPGardn9nQ+G2YliM/B/A8X4kM871G34mbnF7awIDAQAB-----END PUBLIC KEY-----"
   DEVICE_KEY_IDENTIFIER="dnTDuwQzkgM5F1IeW6AMFOLOwPWf18p7"
   BASE_URL="https://smb-vsw-c1-dev.koalavsp.com"
-  APIKEY_NAME="api-vsw"
+  APIKEY_NAME="api-vsw-dev"
   APIKEY_VALUE="rPNbb5RMiksEMCfmopDnIStyTDmK1JyriR4PGcrpMAE"
   FV_BASE_URL="https://demoapimex.firmavirtual.com/api" 
   CLOUD_CONVERT_BASE_URL="https://sync.api.cloudconvert.com/v2/jobs"
