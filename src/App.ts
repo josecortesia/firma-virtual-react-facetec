@@ -301,7 +301,7 @@ export const App = ((): any => {
     sessionTokenCallback: (sessionToken: string) => void,
   ): void {
     sessionTokenErrorHasBeenHandled = false;
-
+    console.log(Config.ApiKeyName, Config.ApiKeyValue);
     try {
       const XHR = new XMLHttpRequest();
       XHR.open("GET", Config.BaseURL + "/session-token");
