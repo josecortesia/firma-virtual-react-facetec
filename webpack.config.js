@@ -72,6 +72,8 @@ module.exports = function () {
         "process.env.FV_BASE_URL": JSON.stringify(process.env.FV_BASE_URL),
         "process.env.EXPIRYDATE": JSON.stringify(process.env.EXPIRYDATE),
         "process.env.KEY": JSON.stringify(process.env.KEY),
+        "process.env.APIKEY_NAME": JSON.stringify(process.env.APIKEY_NAME),
+        "process.env.APIKEY_VALUE": JSON.stringify(process.env.APIKEY_VALUE),
         "process.env.CLOUD_CONVERT_BASE_URL": JSON.stringify(
           process.env.CLOUD_CONVERT_BASE_URL,
         ),
