@@ -130,6 +130,10 @@ export class PhotoIDScanProcessor implements FaceTecIDScanProcessor {
         idScanResult.sessionId as string,
       ),
     );
+    this.latestNetworkRequest.setRequestHeader(
+      Config.ApiKeyName as string,
+      Config.ApiKeyValue as string,
+    );
 
     this.latestNetworkRequest.onreadystatechange = (): void => {
       //
