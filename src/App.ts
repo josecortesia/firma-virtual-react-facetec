@@ -313,6 +313,10 @@ export const App = ((): any => {
         "X-User-Agent",
         FaceTecSDK.createFaceTecAPIUserAgentString(""),
       );
+      XHR.setRequestHeader(
+        Config.ApiKeyName as string,
+        Config.ApiKeyValue as string,
+      );
 
       XHR.onreadystatechange = function (): void {
         if (this.readyState === XMLHttpRequest.DONE) {
