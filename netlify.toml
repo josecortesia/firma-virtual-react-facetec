@@ -3,7 +3,7 @@
   command = "npm run build:prod"
 
 [build.environment]
-  BASE_URL="https://smb-vsw-c1.koalavsp.com"
+  BASE_URL="https://verifyback.firmavirtual.com"
   DEVICE_KEY_IDENTIFIER="dnTDuwQzkgM5F1IeW6AMFOLOwPWf18p7"
   PUBLIC_ENCRYPTION_KEY="-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0eDv8ApfJWfs4Lv8ooyDmenH/eECxID/DlGYeLneWQsn8ouQr5gVP4DYzNy+bOanydhINwL1cuCfvcwN+OhULU2RypzKWGI6Bj+IVx9ZVKBLTUQ4itRW4VXawafwMBADmkd7xyHMe5Ykru29GdyyDIi/0O0MguHf1sogbAMUTvKy7ubXCYrqHnH7sQMv6LXObdatEOp7UBiB6Xqv5dgenFt2eEzlfTtMpLhQYDJYvWVZTjOr8bIgy/8LTZ/sSw918IlvQd+ZbMXq37DkVA9eie987MBrENcgV6BayDNn1rXy0EnC854N/BkXTIW2xN8gV2WR2dQlQOZBVWkmQPbEawIDAQAB-----END PUBLIC KEY-----"
   EXPIRYDATE=""
