@@ -107,6 +107,10 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
         sessionResult.sessionId as string,
       ),
     );
+    this.latestNetworkRequest.setRequestHeader(
+      Config.ApiKeyName as string,
+      Config.ApiKeyValue as string,
+    );
 
     this.latestNetworkRequest.onreadystatechange = (): void => {
       //
