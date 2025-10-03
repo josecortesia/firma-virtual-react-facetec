@@ -8,7 +8,12 @@ export var Config = (function () {
 
   const getData = async () => {
     try {
-      const response = await fetch(`${process.env.BASE_URL}/getInitString/web`);
+      const response = await fetch(`${process.env.BASE_URL}/getInitString/web`, {
+        headers: {
+          [process.env.APIKEY_NAME as string]: process.env.APIKEY_VALUE || ''
+        },
+        method: 'GET'
+      });
       const json = await response.json();
       const data = json.data.licenseText;
       ProductionKey = {
