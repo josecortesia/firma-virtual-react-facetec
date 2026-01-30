@@ -107,7 +107,7 @@ confirmButton &&
 
         cancelButton.disabled = false;
         loader.style.visibility = "hidden";
-        window.location.href = "../success";
+        window.location.href = "../src/success";
       } else {
         cancelButton.disabled = false;
         loader.style.visibility = "hidden";
@@ -140,6 +140,6 @@ cancelButton &&
       localStorage.removeItem("require_video");
       localStorage.clear();
       // localStorage.removeItem("curp");
-      window.location.href = "/";
+      window.location.href = "../src/";
     });
   });

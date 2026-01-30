@@ -225,7 +225,7 @@ confirmButton && confirmButton.addEventListener("click", async () => {
 
             if (result?.ok) {
               loader.style.visibility = "hidden";
-              window.location.href = "../signature";
+              window.location.href = "../src/signature";
             } else {
               console.error(result);
               loader.style.visibility = "hidden";

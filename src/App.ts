@@ -229,7 +229,7 @@ export const App = ((): any => {
 
         if (response?.ok) {
           loader.style.visibility = "hidden";
-          window.location.href = "./signature";
+          window.location.href = "./src/signature";
         } else {
           console.error(response);
           loader.style.visibility = "hidden";
@@ -240,7 +240,7 @@ export const App = ((): any => {
         console.error(err);
       }
 
-      // window.location.href = "./choose";
+      // window.location.href = "./src/choose";
       DeveloperStatusMessages.displayMessage("Now you will be redirected to the next step.");
     } else {
       DeveloperStatusMessages.logScanOncompleteResult(
