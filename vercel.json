@@ -1,5 +1,5 @@
 {
-  "ouptputDirectory": "dist",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/(.*)",
