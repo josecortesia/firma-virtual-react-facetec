@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/browser";
 import "./css/style.css";
 import "./agreement/Agreement.scripts";
 import "./signature/Signature.scripts";
@@ -25,6 +26,13 @@ import { DeveloperStatusMessages } from "./utilities/DeveloperStatusMessages";
 import { LoginFlashUser } from "./utilities/CreateFlashUser";
 import { uploadBiometricValidation } from "./services";
 // import { VerifySignature } from "./utilities/VerifySignature";
+
+Sentry.init({
+  dsn: "https://bc017199c594d72ab4ec262be6fab7e7@o4509480449802240.ingest.us.sentry.io/4510800538370048",
+  // Setting this option to true will send default PII data to Sentry.
+  // For example, automatic IP address collection on events
+  sendDefaultPii: true
+});
 
 export const App = ((): any => {
   let flashUserResult = "";

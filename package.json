@@ -13,6 +13,7 @@
   },
   "author": "Daniel (Rezpo) Rebolledo",
   "dependencies": {
+    "@sentry/browser": "^10.38.0",
     "live-server": "^1.2.1",
     "pdfjs-dist": "^4.0.189",
     "url": "^0.11.3"
