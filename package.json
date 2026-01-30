@@ -7,7 +7,7 @@
     "start": "live-server --host=localhost --port=8000",
     "build:css": "tailwindcss build ./src/css/style.css -o ./dist/output.css",
     "build:dev": "webpack --mode=development --node-env=development && npm run build:css",
-    "build:prod": "npm run build:css && webpack --mode=production --node-env=production",
+    "build": "npm run build:css && webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md,html}\""
   },
