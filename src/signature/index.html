@@ -20,6 +20,17 @@
       name="apple-mobile-web-app-title"
       content="Declaración de acuerdos en video - Firma Virtual"
     />
+    <script
+      src="https://js.sentry-cdn.com/c44ba8896518ddf7aeee9830023593ac.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+        Sentry.onLoad(function() {
+          Sentry.init({
+              // You can add any additional configuration here
+            });
+        });
+    </script>
   </head>
   <body
     class="min-h-screen flex flex-col overflow-y-auto bg-gradient-to-br from-almostwhite-200 to-almostwhite-50"
