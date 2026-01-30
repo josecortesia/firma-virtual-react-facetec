@@ -59,7 +59,7 @@ signOptionButton && signOptionButton.addEventListener('click', async () => {
 
   if (response?.ok) {
     loader.style.visibility = "hidden";
-    window.location.href = "../signature";
+    window.location.href = "../src/signature";
   } else {
     console.error(response);
     loader.style.visibility = "hidden";
