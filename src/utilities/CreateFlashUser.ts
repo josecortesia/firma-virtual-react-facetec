@@ -41,9 +41,9 @@ export const LoginFlashUser = async (email: string, password: string) => {
 
     const data = await result.json();
     if (data.status === "success") {
-      localStorage.setItem("flashUserToken", data.data.token);
+      localStorage.setItem("flashUserToken", data.data.auth_identity?.token);
     }
-    return data.data.user;
+    return data.data.auth_identity;
   } catch (error: any) {
     throw new Error(error);
   }
@@ -81,7 +81,7 @@ export const CreateFlashUser = async () => {
         );
 
         if (loggedIn.status === "success") {
-          localStorage.setItem("flashUserToken", loggedIn.data[0].token);
+          localStorage.setItem("flashUserToken", loggedIn.token);
         }
       }
 
